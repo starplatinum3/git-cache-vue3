@@ -1,0 +1,658 @@
+<template>
+  <div>
+    <keep-alive>
+    <el-table
+      :data="tableData"
+      style="width: 100%">
+<!--      <el-table-column-->
+<!--        prop="date"-->
+<!--        label="日期"-->
+<!--        width="180">-->
+<!--      </el-table-column>-->
+      <el-table-column
+        prop="title"
+        label="标题"
+        width="500">
+      </el-table-column>
+      <el-table-column
+        prop="state"
+        label="状态"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="created_at"
+        label="发起时间"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="updated_at"
+        label="updated_at"
+        width="180">
+      </el-table-column>
+
+      <el-table-column
+        prop="user.login"
+        label="用户名"
+        width="180">
+      </el-table-column>
+
+      <!--    el-table-column 是一个链接-->
+
+      <el-table-column label="访问链接" width="400" show-overflow-tooltip>
+        <!--      <template slot-scope="scope">-->
+        <!--        <a :href="scope.row.url" @click="onIssueClicked($event)"-->
+        <!--           target="_blank" class="buttonText">{{scope.row.url}}</a>-->
+        <!--      </template>-->
+
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            icon="el-icon-edit"
+            @click="onIssueClicked(scope.$index, scope.row)"
+          >链接
+          </el-button>
+
+
+        </template>
+      </el-table-column>
+      <!--    点击访问一个issue 后台获取数据 根据id 知道是不是新的  如果后台有保存的话 用的后台的-->
+
+      <!--    <el-table-column :prop="subHeaderItem.headerKey" :label="subHeaderItem.headerVal"-->
+      <!--                     v-if="subHeaderItem.slabelName == undefined"-->
+      <!--                     v-for="(subHeaderItem, subHeaderKey) of tabHeaderItem.subHeaders" :key="subHeaderKey">-->
+      <!--      <template slot-scope="scope">-->
+      <!--        <router-link :to="subHeaderItem.router_link"-->
+      <!--                     v-if="subHeaderItem.columnType === columnType.router_link">{{scope.row[subHeaderItem.headerKey]}}</router-link>-->
+      <!--        <p v-else-if="subHeaderItem.columnType === columnType.text">{{scope.row[subHeaderItem.headerKey]}}</p>-->
+      <!--      </template>-->
+      <!--    </el-table-column>-->
+
+
+      <el-table-column
+        prop="name"
+        label="姓名"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="地址">
+      </el-table-column>
+    </el-table>
+    </keep-alive>
+    <!--    https://blog.csdn.net/woshisangsang/article/details/113539967-->
+
+    <div class="white">网址</div>
+    <el-input v-model="netUrl"></el-input>
+    <el-button type="primary" @click="parseApi" class="submitBtn">解析</el-button>
+    <el-button type="primary" @click="reqIssNum" class="submitBtn">reqIssNum</el-button>
+    <el-button type="primary" @click="getIssues" class="submitBtn">获取issues</el-button>
+    <el-button type="primary" @click="getHistory" class="submitBtn">历史记录</el-button>
+
+    <el-card>
+    <p >total_issues : {{total_issues}}</p>
+    <p >api : {{api}}</p>
+<!--    获取issues 是/获取issues-->
+
+    <div >历史记录</div>
+    <div v-for="his in history">{{his.url}}</div>
+<!--    <div v-model="reposQuery"></div>-->
+
+<!--      <p class="white">total_issues : {{total_issues}}</p>-->
+<!--      <p class="white">api : {{api}}</p>-->
+<!--      &lt;!&ndash;    获取issues 是/获取issues&ndash;&gt;-->
+
+<!--      <div class="white">历史记录</div>-->
+<!--      <div v-for="his in history">{{his.url}}</div>-->
+    </el-card>
+    <el-card>
+<!--    <div class="white">page</div>-->
+<!--     <el-input v-model="reposQuery.page"></el-input>-->
+<!--    <div class="white">queryWord</div>-->
+<!--      <el-input v-model="reposQuery.queryWord"></el-input>-->
+
+<!--    <el-button type="primary" @click="getRepos" class="submitBtn">浏览仓库</el-button>-->
+
+<!--    <div class="white">-->
+<!--      {{getReposStatus}}-->
+<!--    </div>-->
+
+      <div >page</div>
+      <el-input v-model="reposQuery.page"></el-input>
+      <div >queryWord</div>
+      <el-input v-model="reposQuery.queryWord"></el-input>
+
+      <el-button type="primary" @click="getRepos" class="submitBtn">浏览仓库</el-button>
+
+      <div >
+        {{getReposStatus}}
+      </div>
+
+    </el-card>
+    <div class="white" v-for="repo  in git_page_repos">
+
+      <el-card>
+<!--        <h2> <a @click="toRepo">{{repo.repoName}}</a></h2>-->
+<!--        <h2 @click="toRepo"> {{repo.repoName}}</h2>-->
+<!--        <el-button type="primary" @click="toRepo" class="submitBtn">{{repo.repoName}}</el-button>-->
+<!--&lt;!&ndash;        <h2  @click="getRepos"> {{repo.repoName}}</h2>&ndash;&gt;-->
+<!--        <p   @click="toRepo()"> {{repo.repoName}}</p>-->
+<!--        <el-button @click="toRepo()" type="text" class="button"> {{repo.repoName}}</el-button>-->
+        <el-button @click="toRepo(repo.repoName)" type="text" class="button"> {{repo.repoName}}</el-button>
+
+        <p> {{repo.sketch}}</p>
+
+
+      <p>star {{repo.star}}</p>
+      <p>  主题 {{repo.topics}}</p>
+      </el-card>
+    </div>
+
+  </div>
+</template>
+
+<script>
+    import method from "../util/method";
+    import strUtil from "../util/strUtil";
+    import {codeError, apiMark, QuickVue, GITHUB_URL, dataGitHub} from "../common/common";
+    import util from "../util/util";
+    // import {codeError} from "../common/common";
+
+    export default {
+        methods: {
+            toRepo(repoName){
+                // l="https://github.com/moshowgame/SpringBootCodeGenerator/releases/tag/2022.02.09"
+             let urlGetRepo=   strUtil.urlAdd(GITHUB_URL,repoName)
+                console.log("urlGetRepo")
+                console.log(urlGetRepo)
+
+                this.netUrl=urlGetRepo
+                this.parseApi()
+                this.getIssuesDo()
+            },
+            getIssuesDo(){
+                if(this.api===null){
+                    // this.$mess
+                    // vue
+                    // this.messge.
+                    // this.$message.error("该单位不可用！");
+                    // QuickVue.vue.$me
+                    // QuickVue.messge.error("api 没有")
+                    // this.message.error("api 没有")
+                    // this.$message.error("api 没有")
+                    // QuickVue.getMsg(this).error("api 没有")
+                    // util.methods.getMsg()
+                    util.getMsg(this).error("api 没有r4141")
+                    return
+                }
+                var data={
+                    url:strUtil.urlAdd(this.api,"issues")
+                }
+                // method.post("/repo/issues",data,this)
+                method.post("/issue/issues",data,this)
+                    .then(response => {
+
+                        if(response.data.port===codeError) {
+                            this.$message.error('账号或者密码有误');
+                        }else{
+                            // this.issues=response.data.data;
+                            this.tableData=response.data.data;
+
+                            // console.log("this.issues")
+                            // console.log(this.issues)
+
+                            console.log("this.tableData")
+                            console.log(this.tableData)
+
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            },
+            getIssues(){
+                if( this.canHit){
+                    this.getIssuesDo()
+                    this.canHit=false
+                    var auth_timetimer = setInterval(() => {
+                        // this.timer--;
+                        this.canHit=true
+                        clearInterval(auth_timetimer);
+
+                    }, 1000);
+                }
+//                 this.timer = 300;
+//                 this.canHit=false
+//                 var auth_timetimer = setInterval(() => {
+//                     this.timer--;
+//                     if (this.timer <= 0) {
+//                         // this.sendAuthCode = true;
+//                         clearInterval(auth_timetimer);
+//                         // window.location.reload();
+//                         // window.opener=null;
+//                         // window.open('',self);
+//                         // window.close();
+//                     }
+//                 }, 1000);
+// // ————————————————
+// // 版权声明：本文为CSDN博主「年轻即出发」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// // 原文链接：https://blog.csdn.net/weixin_42246997/article/details/103736039
+// //
+//                 var data={
+//                     url:strUtil.urlAdd(this.api,"issues")
+//                 }
+//                 // method.post("/repo/issues",data,this)
+//                 method.post("/issue/issues",data,this)
+//                     .then(response => {
+//
+//                         if(response.data.port===codeError) {
+//                             this.$message.error('账号或者密码有误');
+//                         }else{
+//                             // this.issues=response.data.data;
+//                             this.tableData=response.data.data;
+//
+//                             // console.log("this.issues")
+//                             // console.log(this.issues)
+//
+//                             console.log("this.tableData")
+//                             console.log(this.tableData)
+//
+//                         }
+//                     })
+//                     .catch(function(error) {
+//                         console.log(error);
+//                     });
+
+            },
+            getHistory(){
+                method.post("/history/list",null,this)
+                    .then(response => {
+
+                        if(response.data.port===codeError) {
+                            this.$message.error('账号或者密码有误');
+                        }else{
+                            // this.issues=response.data.data;
+                            // this.tableData=response.data.data;
+                            this.history=response.data.data;
+
+
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            },
+            getRepos(){
+
+                if (this.reposQuery.queryWord === null) {
+                    util.getMsg(this).error( "输入要查询的")
+                    return
+                }
+
+                this.  getReposStatus="查询中"
+                method.post("gitPageRepo/getRepos",this.reposQuery,this)
+                    .then(response => {
+                        if(response.data.code===codeError) {
+                            // response.data.msg;
+                            util.getMsg(this).error( 'getRepos 失败'+ response.data.msg)
+                            // this.$message.error('getRepos 失败');
+                            this.  getReposStatus="查询失败"
+                        }else{
+                            this.  getReposStatus="查询成功"
+                            // this.issues=response.data.data;
+                            // this.tableData=response.data.data;
+                            this.git_page_repos=response.data.data;
+
+                            // console.log("this.issues")
+                            // console.log(this.issues)
+
+                            console.log("this.git_page_repos")
+                            console.log(this.git_page_repos)
+
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            },
+// 问后台要的是一个接口 这个个数是要问github要的吧 因为他才是最新的
+//             reqIssNum(apiUrl) {
+//             可以让后端转发啊 后端做逻辑
+//             @de
+            reqIssNum() {
+                // 会传进来一个 evt
+                // apiUrl=apiUrl||this.netUrl
+                const apiUrl = this.netUrl;
+                var total_issues;
+                // method.post()
+                // Vue
+
+                // https://segmentfault.com/a/1190000016653561
+                // this.$axios.get(this.GLOBAL.host.+“后台接口地址”,{
+                // strUtil.urlAdd(Vue._api,)
+                // https://segmentfault.com/a/1190000016653561
+                var that=this
+                this.$axios.get(apiUrl).then(res => {
+                  //获取你需要用到的数据
+                    console.log("res")
+                    console.log(res)
+                    that.  repoInfoGet=res
+                    total_issues = res.open_issues;
+                });
+                this.total_issues=total_issues
+                // $.ajax({
+                //     url: apiUrl,
+                //     type: "GET",
+                //     async: false,
+                //     success: function (repoInfo) {
+                //         total_issues = repoInfo.open_issues;
+                //     }
+                // });
+
+                console.log("Total issues: " + total_issues);
+                return total_issues;
+            },
+            zipIssues(apiUrl) {
+                apiUrl = apiUrl || this.netUrl
+                var zip = new JSZip();
+                var total_issues = reqIssNum(apiUrl);
+                var maxPageIssuesNum = 30;
+                var total_pages = Math.ceil(total_issues / maxPageIssuesNum);
+                console.log("Total pages: " + total_pages);
+                // var doSave = false
+                var doSave = true
+                if (total_issues == undefined) {
+                    $("#status").text("Request failed.");
+                    return;
+                } else if (total_issues == 0) {
+                    $("#status").text("No issue.");
+                    return;
+                }
+                for (var p = 1; p <= total_pages; p++) {
+                    var issueInfo = reqIssData(apiUrl, p);
+                    if (issueInfo == undefined) {
+                        $("#status").text("Request failed.");
+                    }
+                    var len = issueInfo.length;
+                    //当前页的issue总数
+                    console.log("p" + p + " issues number: " + len);
+                    for (var i = 0; i < len; i++) {
+                        var oneIssueInfo = issueInfo[i]
+                        var title = issueInfo[i].title;
+                        var number = issueInfo[i].number;
+                        var content = issueInfo[i].body;
+                        var tags = "";
+                        var lablesNum = issueInfo[i].labels.length;
+
+                        var cmts = reqIssComments(oneIssueInfo.comments_url)
+
+                        console.log("cmts");
+                        console.log(cmts);
+                        let fileContent = makeMdFileContent(title, content, cmts)
+                        //   这里可以走
+                        for (var j = 0; j < lablesNum; j++) {
+                            var label = issueInfo[i].labels[j].name;
+                            tags += label;
+                            if (j < lablesNum - 1) {
+                                tags += ",";
+                            }
+                        }
+                        tags = tags.replace(/[\\]/g, "↘").replace(/[\/]/g, "↗");//防止/和\构成文件夹
+                        title = title.replace(/[\\]/g, "↘").replace(/[\/]/g, "↗");
+                        //添加md文件名称和内容
+                        if (doSave) {
+                            if (tags != "") {
+                                // zip.folder("P" + p).file(number + " " + tags + "-" + title + ".md", content);
+                                zip.folder("P" + p).file(number + " " + tags + "-" + title + ".md", fileContent);
+                            } else {
+                                // zip.folder("P" + p).file(number + " " + title + ".md", content);
+                                zip.folder("P" + p).file(number + " " + title + ".md", fileContent);
+                            }
+                        }
+                    }
+                }
+
+
+                if (doSave) {
+                    zip.generateAsync({
+                        type: "blob"
+                    }).then(function (content) {
+                        //打包
+                        saveAs(content, "[Gissue] " + repoInfo.username + "-" + repoInfo.repopath + " #" + repoInfo.newest + ".zip");
+                    });
+                }
+
+                $("#status").text("Done.");
+            },
+            parseApi() {
+                // parse
+                // var urlSplit = crtUrl.split('/');
+                var urlSplit = this.netUrl.split('/');
+                //console.log(urlSplit);//list
+                var username = urlSplit[3];
+                var repopath = urlSplit[4];
+                var repoInfo = this.repoInfo
+                repoInfo.username = username;
+                repoInfo.repopath = repopath;
+                // repoInfo.username = username;
+                // repoInfo.repopath = repopath;
+                console.log("repoInfo")
+                console.log(repoInfo)
+                var api = "https://api.github.com/repos/" + username + "/" + repopath;
+
+                this.api = api
+                console.log("Get GitHub api URL:" + api);
+                // return api;
+                // apiMark
+                localStorage.setItem(apiMark,api)
+                // this.$cookies.set(apiMark,api);
+            },
+
+            // parseApi(crtUrl) {
+            //     var urlSplit = crtUrl.split('/');
+            //     //console.log(urlSplit);//list
+            //     var username = urlSplit[3];
+            //     var repopath = urlSplit[4];
+            //     var repoInfo = this.repoInfo
+            //     repoInfo.username = username;
+            //     repoInfo.repopath = repopath;
+            //     // repoInfo.username = username;
+            //     // repoInfo.repopath = repopath;
+            //     var api = "https://api.github.com/repos/" + username + "/" + repopath;
+            //
+            //     console.log("Get GitHub api URL:" + api);
+            //     return api;
+            // },
+
+
+            // Commoc
+            // 编辑操作
+            onIssueClicked(index, row) {
+                console.log("row.url")
+                console.log(row.url)
+                console.log("row.number")
+                console.log(row.number)
+                // issue 121
+                // this.$router.push(row.url)
+                // 传过去一个id
+                // https://blog.csdn.net/sinat_17775997/article/details/68941091
+// 带查询参数，变成/backend/order?selected=2
+//                 this.$router.push({path: '/backend/order', query: {selected: "2"}});
+//                 this.$router.push({path: 'Issue', query: {issueId: row.issueId}});
+                // 保存当前页面上data数据
+                sessionStorage.setItem(dataGitHub, JSON.stringify(this.$data))
+
+                this.$router.push({path: 'Issue', query: {issueId: row.number}});
+                // $router.push 保存这个页面的数据
+                // 链接是项目的 还是 github的
+                // if(row.deleteFlag==1)
+                // {
+                //     this.$message.error("该单位不可用！");
+                // }else{
+                //     this.idx = index;
+                //     this.form = row;
+                //     this.editVisible = true;
+                // }
+
+            },
+
+            // onIssueClicked(evt){
+            //     // 获取点击的 对象 a vue
+            //
+            //     console.log("evt")
+            //     console.log(evt)
+            //
+            //     // 获取的是 html
+            //     // vue 点击 获取数据
+            //     console.log("evt.currentTarget");
+            //     console.log(evt.currentTarget);
+            //     console.log("evt.target");
+            //     console.log(evt.target);
+            // }
+        },
+        created(){
+          let dataObj=  sessionStorage.getItem(dataGitHub)
+            if(dataObj===null){
+                console.log("没有")
+                return
+            }
+            console.log("赋值")
+            // 获取源数据
+            let data = JSON.parse(dataObj)
+            // Object.assign方法 赋值 （目标对象， 源对象）
+            Object.assign(this, data)
+        },
+        data() {
+           let git_page_repo= {
+                "repoName":"repo_name",
+                "page":"page",
+                "sketch":"sketch",
+                "topics":"topics",
+                "star":"star",
+                "queryWord":"query_word"
+            }
+            let  reposQuery={
+                "page":1,
+                "queryWord":null
+            }
+            let  git_page_repos=[
+                // git_page_repo,
+                {
+                    "id": 21,
+                    "repoName": "Louiszhai/tool",
+                    "sketch": "开发效率提升：Mac生产力工具链推荐",
+                    "topics": "[\"mac\",\"tool\"]",
+                    "star": "5.1k",
+                    "queryWord": "tool",
+                    "page": null
+                }]
+            let issue=   {
+                "assignees": [],
+                "created_at": "2021-09-29T07:41:49Z",
+                "title": "支持大佬，求在mybatis里加入批量插入接口",
+                "body": null,
+                "labels_url": "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/labels{/name}",
+                "author_association": "NONE",
+                "number": 121,
+                "updated_at": "2021-09-29T07:41:49Z",
+                "performed_via_github_app": null,
+                "comments_url": "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/comments",
+                "active_lock_reason": null,
+                "repository_url": "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator",
+                "id": 1010607155,
+                "state": "open",
+                "locked": false,
+                "timeline_url": "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/timeline",
+                "comments": 0,
+                "closed_at": null,
+                "url": "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121",
+                "labels": [],
+                "milestone": null,
+                "events_url": "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/events",
+                "html_url": "https://github.com/moshowgame/SpringBootCodeGenerator/issues/121",
+                "reactions": {
+                    "confused": 0,
+                    "-1": 0,
+                    "total_count": 0,
+                    "+1": 0,
+                    "rocket": 0,
+                    "hooray": 0,
+                    "eyes": 0,
+                    "url": "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/reactions",
+                    "laugh": 0,
+                    "heart": 0
+                },
+                "assignee": null,
+                "user": {
+                    "gists_url": "https://api.github.com/users/xuhao199224/gists{/gist_id}",
+                    "repos_url": "https://api.github.com/users/xuhao199224/repos",
+                    "following_url": "https://api.github.com/users/xuhao199224/following{/other_user}",
+                    "starred_url": "https://api.github.com/users/xuhao199224/starred{/owner}{/repo}",
+                    "login": "xuhao199224",
+                    "followers_url": "https://api.github.com/users/xuhao199224/followers",
+                    "type": "User",
+                    "url": "https://api.github.com/users/xuhao199224",
+                    "subscriptions_url": "https://api.github.com/users/xuhao199224/subscriptions",
+                    "received_events_url": "https://api.github.com/users/xuhao199224/received_events",
+                    "avatar_url": "https://avatars.githubusercontent.com/u/2443665?v=4",
+                    "events_url": "https://api.github.com/users/xuhao199224/events{/privacy}",
+                    "html_url": "https://github.com/xuhao199224",
+                    "site_admin": false,
+                    "id": 2443665,
+                    "gravatar_id": "",
+                    "node_id": "MDQ6VXNlcjI0NDM2NjU=",
+                    "organizations_url": "https://api.github.com/users/xuhao199224/orgs"
+                },
+                "node_id": "I_kwDOCMCWTc48PKQz"
+            }
+            var issues = [
+                {
+                    title: "111",
+                    url: "url",
+                    issueId: 111,
+
+                },
+                issue
+            ]
+            var originData = [{
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }, {
+                date: '2016-05-04',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1517 弄'
+            }, {
+                date: '2016-05-01',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1519 弄'
+            }, {
+                date: '2016-05-03',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1516 弄'
+            }]
+
+            return {
+                repoInfoGet:null,
+                total_issues:null,
+                api: null,
+                // netUrl:null,
+                netUrl: "https://github.com/moshowgame/SpringBootCodeGenerator",
+                repoInfo: {},
+                tableData: issues,
+                canHit:true,
+                history:null,
+                git_page_repo:git_page_repo,
+                git_page_repos:git_page_repos,
+                reposQuery:reposQuery,
+                getReposStatus:"请输入查询"
+            }
+        }
+    }
+</script>
+
+<!--其他地方定义的 css 不引入的话 应该不行的吧-->
+<style type="text/css">
+  .white {
+    color: white;
+  }
+</style>

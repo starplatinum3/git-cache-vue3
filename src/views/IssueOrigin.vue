@@ -1,92 +1,78 @@
 <template>
-    <div class="white">
-        <!--    <h2>{{title}}</h2>-->
-        <!--    <p> {{content}}</p>-->
-        <el-card style="margin-bottom: 20px">
-            <div style="margin-left: 20px">
+  <div class="white">
+    <!--    <h2>{{title}}</h2>-->
+    <!--    <p> {{content}}</p>-->
+    <el-card style="margin-bottom: 20px">
+    <div style="margin-left: 20px">
 
-                <h2>{{issue.title}}</h2>
-                <!--      <p> {{issue.body}}</p>-->
-                <!--      <vue-markdown>i am a ~~tast~~ **test**.</vue-markdown>-->
-<!--                <vue-markdown>{{issue.body}}</vue-markdown>-->
-                <v-md-preview :text="issue.body"></v-md-preview>
-<!--                <p>  {{issue.body}}</p>-->
-                {{api}}   id:{{issue.number}}  {{issue.state}}
-                {{issue.created_at}}  {{issue.updated_at}}  {{issue.closed_at}}
-                {{issue.authorAssociation}}  {{issue.user.login}} {{issue.reactions.totalCount}}
-<!--                <p> api {{api}}</p>-->
-<!--                <p> api {{api}}</p>-->
+      <h2>{{issue.title}}</h2>
+<!--      <p> {{issue.body}}</p>-->
+<!--      <vue-markdown>i am a ~~tast~~ **test**.</vue-markdown>-->
+      <vue-markdown>{{issue.body}}</vue-markdown>
 
-<!--                <p> issue number {{issue.number}}</p>-->
-<!--                <p> issue state {{issue.state}}</p>-->
-<!--                &lt;!&ndash;                <p> issue createdAt {{issue.createdAt}}</p>&ndash;&gt;-->
-<!--                &lt;!&ndash;                <p> issue updatedAt {{issue.updatedAt}}</p>&ndash;&gt;-->
-<!--                &lt;!&ndash;                <p> issue closedAt {{issue.closedAt}}</p>&ndash;&gt;-->
-
-
-<!--                <p> issue createdAt {{issue.created_at}}</p>-->
-<!--                <p> issue updatedAt {{issue.updated_at}}</p>-->
-<!--                <p> issue closedAt {{issue.closed_at}}</p>-->
-
-<!--                <p> issue authorAssociation {{issue.authorAssociation}}</p>-->
-<!--                <p> issue 用户 {{issue.user.login}}</p>-->
-<!--                <p> issue reactions totalCount {{issue.reactions.totalCount}}</p>-->
-                <!--    <p> {{issue.title}}</p>-->
-            </div>
-        </el-card>
-<!--        <el-table-->
-<!--                :data="tableData"-->
-<!--                style="width: 100%">-->
-<!--            &lt;!&ndash;      <el-table-column&ndash;&gt;-->
-<!--            &lt;!&ndash;        prop="date"&ndash;&gt;-->
-<!--            &lt;!&ndash;        label="日期"&ndash;&gt;-->
-<!--            &lt;!&ndash;        width="180">&ndash;&gt;-->
-<!--            &lt;!&ndash;      </el-table-column>&ndash;&gt;-->
-<!--            <el-table-column-->
-<!--                    prop="title"-->
-<!--                    label="标题"-->
-<!--                    width="500">-->
-<!--            </el-table-column>-->
-<!--        </el-table>-->
-
-<!--        <el-button type="primary" @click="postTest" class="submitBtn">postTest</el-button>-->
-
-<!--        <div>-->
-<!--            <div>评论标题</div>-->
-<!--            <div>评论内容</div>-->
-<!--            <div>鼓掌</div>-->
-<!--            <div>角色</div>-->
-<!--        </div>-->
-        <el-button type="primary" @click="toGithub" class="submitBtn">返回github首页</el-button>
-
-
-        <p>回复</p>
-        <p> 评论数 {{issue.comments}}</p>
-        <!--    <div v-for="cm"></div>-->
-        <div :key="comment.id" v-for="comment in comments">
-            <!--      {{ tab.text }}-->
-            <el-card>
-                <!--        <div>评论标题</div>-->
-                <!--        <div>评论内容</div>-->
-                <!--        <div>鼓掌</div>-->
-                <!--        <div>角色</div>-->
-                <!--        <div>{{comment.title}}</div>-->
-<!--                <div>{{comment.body}}</div>-->
-                <v-md-preview :text="comment.body"></v-md-preview>
-                <!--        <div>用户: {{comment.user.login}}</div>-->
-                用户: {{comment.user.login}}
-                        创建时间：{{comment.created_at}}
-                        更新时间：{{comment.updated_at}}
-<!--                创建时间：{{comment.createdAt}}-->
-<!--                更新时间：{{comment.updatedAt}}-->
-
-                <!--        <div>{{comment.created_at}}</div>-->
-            </el-card>
-        </div>
-
-        <!--    <el-card></el-card>-->
-
+      <p> api {{api}}</p>
+      <p> issue number {{issue.number}}</p>
+      <p> issue state {{issue.state}}</p>
+      <p> issue createdAt {{issue.createdAt}}</p>
+      <p> issue updatedAt {{issue.updatedAt}}</p>
+      <p> issue closedAt {{issue.closedAt}}</p>
+      <p> issue authorAssociation {{issue.authorAssociation}}</p>
+      <p> issue 用户 {{issue.user.login}}</p>
+      <p> issue reactions totalCount {{issue.reactions.totalCount}}</p>
+      <!--    <p> {{issue.title}}</p>-->
     </div>
+    </el-card>
+    <el-table
+      :data="tableData"
+      style="width: 100%">
+      <!--      <el-table-column-->
+      <!--        prop="date"-->
+      <!--        label="日期"-->
+      <!--        width="180">-->
+      <!--      </el-table-column>-->
+      <el-table-column
+        prop="title"
+        label="标题"
+        width="500">
+      </el-table-column>
+    </el-table>
+    <el-button type="primary" @click="postTest" class="submitBtn">postTest</el-button>
+
+    <div>
+      <div>评论标题</div>
+      <div>评论内容</div>
+      <div>鼓掌</div>
+      <div>角色</div>
+    </div>
+    <el-button type="primary" @click="toGithub" class="submitBtn">返回github首页</el-button>
+
+
+    <p>回复</p>
+    <p> 评论数 {{issue.comments}}</p>
+    <!--    <div v-for="cm"></div>-->
+    <div v-for="comment in comments">
+      <!--      {{ tab.text }}-->
+      <el-card>
+        <!--        <div>评论标题</div>-->
+        <!--        <div>评论内容</div>-->
+        <!--        <div>鼓掌</div>-->
+        <!--        <div>角色</div>-->
+        <!--        <div>{{comment.title}}</div>-->
+        <div>{{comment.body}}</div>
+        <!--        <div>用户: {{comment.user.login}}</div>-->
+        用户: {{comment.user.login}}
+<!--        创建时间：{{comment.created_at}}-->
+<!--        更新时间：{{comment.updated_at}}-->
+        创建时间：{{comment.createdAt}}
+        更新时间：{{comment.updatedAt}}
+
+        <!--        <div>{{comment.created_at}}</div>-->
+      </el-card>
+    </div>
+
+    <!--    <el-card></el-card>-->
+
+  </div>
 
 </template>
 
@@ -95,12 +81,11 @@
     import {apiMark, codeError, RouteMark} from "../common/common";
     import util from "../util/util";
     import strUtil from "../util/strUtil";
-    // import router from "../router";
-    // import VueMarkdown from 'vue-markdown' // production
+    import router from "../router";
+    import VueMarkdown from 'vue-markdown' // production
     export default {
-        name: 'starp-issue',
         components: {
-            // VueMarkdown
+            VueMarkdown
         },
         // 代码来自
         // G:\project\JSProject\gissue.github.io\js\gissue.js
@@ -109,7 +94,7 @@
                 // let api = localStorage.getItem(apiMark)
                 // console.log("api")
                 // console.log(api)
-                let api = this.api
+                let api =   this.api
                 // api.
                 // this.$router
                 // this.$router query 获取
@@ -125,32 +110,19 @@
                 let data = {
                     commentsUrl: url
                 }
-                // method.post("/comment/comments", data, this)
-                method.postV3("/comment/comments", data)
-                    .then(response => {
-                        console.log("response")
-                        console.log(response)
+                method.post("/comment/comments", data, this).then(response => {
+                    console.log("response")
+                    console.log(response)
 
-                        if (response.data.code === codeError) {
-                            this.$message.error('账号或者密码有误');
-                        } else {
-                            // this.$message.success('登录成功');
-                            this.comments = response.data.data
-
-                            this.comments.forEach(o=>{
-                                if(typeof  o.user ==="string"){
-                                    console.log("parse user")
-                                    o.user=JSON.parse(o.user)
-                                }
-                                if(typeof  o.reactions ==="string"){
-                                    o.reactions=JSON.parse(o.reactions)
-                                }
-                            })
-
-                            console.log("this.comments")
-                            console.log(this.comments)
-                        }
-                    })
+                    if (response.data.code === codeError) {
+                        this.$message.error('账号或者密码有误');
+                    } else {
+                        // this.$message.success('登录成功');
+                        this.comments = response.data.data
+                        console.log("this.comments")
+                        console.log(this.comments)
+                    }
+                })
                     .catch(function (error) {
                         console.log(error);
                     });
@@ -170,11 +142,11 @@
                 console.log("Get GitHub api URL:" + api);
                 return api;
             },
-            toGithub() {
+            toGithub(){
                 // router.routes.na
                 // RouteMark.Github
                 // this.$router.push({path:  RouteMark.Github, query: {issueId: row.number}});
-                this.$router.push({path: RouteMark.Github});
+                this.$router.push({path:  RouteMark.Github});
             },
             postTest() {
                 var user = {
@@ -381,7 +353,7 @@
                 "performedViaGithubApp": null
             }
 
-            let issueTml = {
+            let ddd={
                 "id": 1012912885,
                 "userName": null,
                 "userUrl": null,
@@ -450,17 +422,11 @@
                 repoInfo: {},
                 title: "title",
                 content: "content",
-                // tableData: issues,
-                tableData: null,
+                tableData: issues,
                 // comments: comments,
                 comments: null,
-                // issue: issue,
-                issue: issueTml,
-                // issue: {
-                //     body:null
-                // },
-                // issue: null,
-                api: null,
+                issue: issue,
+                api:null,
             }
         },
         created() {
@@ -471,7 +437,7 @@
             let api = localStorage.getItem(apiMark)
             console.log("api")
             console.log(api)
-            this.api = api
+            this.api=api
             // api.
             // this.$router
             // this.$router query 获取
@@ -485,32 +451,25 @@
             let urlGetIss = strUtil.urlAdd(api, `/issues/${issueId}`)
             // getIssue
 
-            // method.post("/issue/getIssue", {url: urlGetIss}, this)
-            method.postV3("/issue/getIssue", {url: urlGetIss})
-                .then(response => {
-                    console.log("response")
-                    console.log(response)
+            method.post("/issue/getIssue", {url: urlGetIss}, this).then(response => {
+                console.log("response")
+                console.log(response)
 
-                    if (response.data.code === codeError) {
-                        this.$message.error('账号或者密码有误');
-                    } else {
-                        // this.$message.success('登录成功');
-                        this.issue = response.data.data
-                        // this.comments=response.data.data
-                        console.log("this.issue")
-                        console.log(this.issue)
-                        // comments
-                        // pull_request
-                        // this.issue.pull_request=JSON.parse(this.issue.pull_request)
-                        if (this.issue.body === null) {
-                            this.issue.body=""
-                        }
-                        if (this.issue.comments > 0) {
-                            console.log("get comments")
-                            this.getComments()
-                        }
+                if (response.data.code === codeError) {
+                    this.$message.error('账号或者密码有误');
+                } else {
+                    // this.$message.success('登录成功');
+                    this.issue = response.data.data
+                    // this.comments=response.data.data
+                    console.log("this.issue")
+                    console.log(this.issue)
+                    // comments
+                    if (this.issue.comments > 0) {
+
+                        this.getComments()
                     }
-                })
+                }
+            })
                 .catch(function (error) {
                     console.log(error);
                 });
@@ -539,7 +498,7 @@
 </script>
 <!--其他地方定义的 css 不引入的话 应该不行的吧-->
 <style type="text/css">
-    .white {
-        color: white;
-    }
+  .white {
+    color: white;
+  }
 </style>

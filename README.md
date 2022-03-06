@@ -49,3 +49,33 @@ D:\proj\vue\git-cache\src\src\views\Home.vue
  lab1
  这本书  【正版】轻松学Vue js 3 0从入门到实战(案例 视频 彩色版) 刘兵 中国水利水电出版社 97
  https://item.jd.com/10039693549582.html
+ 
+ 2022年2月24日14:50:39
+ 
+ D:\proj\vue\git-cache>vue add element-plus
+ 挂了
+
+D:\proj\vue\git-cache\src\views\Issue.vue
+    1:1   error  Component name "Issue" should always be multi-word            vue/multi-word-component-names
+   53:5   error  Elements in iteration expect to have 'v-bind:key' directives  vue/require-v-for-key
+   82:12  error  'util' is defined but never used                              no-unused-vars
+   84:12  error  'router' is defined but never used                            no-unused-vars
+  293:17  error  'comments' is assigned a value but never used                 no-unused-vars
+  304:17  error  'originData' is assigned a value but never used               no-unused-vars
+  356:17  error  'ddd' is assigned a value but never used                      no-unused-vars
+  450:17  error  'url' is assigned a value but never used                      no-unused-vars
+
+✖ 51 problems (51 errors, 0 warnings)
+
+
+cnpm install v-md-editor --save
+
+https://juejin.cn/post/6975485076918239239
+
+cnpm i @kangc/v-md-editor@next -S
+
+
+v-md-editor 这个是真的好看
+
+转移到 vue3  git cache ，比较适合手机吧
+2022年3月6日22:11:50

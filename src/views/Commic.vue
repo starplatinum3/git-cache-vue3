@@ -12,7 +12,7 @@
               list-ul-class="image-list"
               :full="imageList">
     <!--在列表中加入右上角删除按钮-->
-    <template slot-scope="target">
+    <template v-slot="target">
       <span class="icon-remove" @click.stop="onRemove(target.index)" style="">&times;</span>
     </template>
   </vue-viewer>

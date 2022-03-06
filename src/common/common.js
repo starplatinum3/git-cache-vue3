@@ -1,8 +1,8 @@
 import axios from 'axios';
-import {
-  commonConfig,
-  animationPosition
-} from '@/config/commonConfig';
+// import {
+//   commonConfig,
+//   animationPosition
+// } from '@/config/commonConfig';
 import qs from 'qs';
 import Vue from 'vue'
 var isNull = function (value) {
@@ -227,61 +227,61 @@ function getLastDay(year, month) {
     var new_date = new Date(new_year, new_month, 1);        //取当年当月中的第一天
     return (new Date(new_date.getTime() - 1000 * 60 * 60 * 24)).getDate();//获取当月最后一天日期
 }
-const axiosRequest = {
-  axiosPost: function (postObj) {
-    // let postInfo = new URLSearchParams();
-    // for (var paramKey in postObj.params) {
-    //   postInfo.append(paramKey, postObj.params[paramKey]);
-    // }
-    return new Promise((resolve, reject) => {
-      //   axios.defaults.headers['token'] = 'fdsfadsfPerryXiang1';
-      const token = storageOperation.getItem(commonConfig.Token) || '';
-      axios.post(postObj.postUrl, qs.stringify(postObj.params), {
-          headers: {
-            'accept': 'application/json',
-            // 'accept-language': 'en_US',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            // 'Access-Control-Allow-Headers': 'token,Access-Control-Allow-Headers'
-            // 'token': 'fdsfadsfPerryXiang2'
-            'token': token //Access-Control-Allow-Headers: Content-Type(后台需要在web.config里面添加允许的头部字段)
-          }
-        }).then(response => { //then 请求成功之后进行什么操作
-          resolve(response); //把请求到的数据发到引用请求的地方
-        })
-        .catch(error => {
-          console.log('请求异常信息：' + error);
-          reject(error);
-        });
-    });
-  },
-  axiosGet: function (getUrl, params) {
-    // let postInfo = new URLSearchParams();
-    // for (var paramKey in postObj.params) {
-    //   postInfo.append(paramKey, postObj.params[paramKey]);
-    // }
-    return new Promise((resolve, reject) => {
-      //   axios.defaults.headers['token'] = 'fdsfadsfPerryXiang1';
-      const token = storageOperation.getItem(commonConfig.Token) || '';
-      axios.get(getUrl, {
-          params: params,
-          headers: {
-            'accept': 'application/json',
-            // 'accept-language': 'en_US',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            // 'Access-Control-Allow-Headers': 'token,Access-Control-Allow-Headers'
-            // 'token': 'fdsfadsfPerryXiang2'
-            'token': token //Access-Control-Allow-Headers: Content-Type(后台需要在web.config里面添加允许的头部字段)
-          }
-        }).then(response => { //then 请求成功之后进行什么操作
-          resolve(response); //把请求到的数据发到引用请求的地方
-        })
-        .catch(error => {
-          console.log('请求异常信息：' + error);
-          reject(error);
-        });
-    });
-  }
-}
+// const axiosRequest = {
+//   axiosPost: function (postObj) {
+//     // let postInfo = new URLSearchParams();
+//     // for (var paramKey in postObj.params) {
+//     //   postInfo.append(paramKey, postObj.params[paramKey]);
+//     // }
+//     return new Promise((resolve, reject) => {
+//       //   axios.defaults.headers['token'] = 'fdsfadsfPerryXiang1';
+//       const token = storageOperation.getItem(commonConfig.Token) || '';
+//       axios.post(postObj.postUrl, qs.stringify(postObj.params), {
+//           headers: {
+//             'accept': 'application/json',
+//             // 'accept-language': 'en_US',
+//             'Content-Type': 'application/x-www-form-urlencoded',
+//             // 'Access-Control-Allow-Headers': 'token,Access-Control-Allow-Headers'
+//             // 'token': 'fdsfadsfPerryXiang2'
+//             'token': token //Access-Control-Allow-Headers: Content-Type(后台需要在web.config里面添加允许的头部字段)
+//           }
+//         }).then(response => { //then 请求成功之后进行什么操作
+//           resolve(response); //把请求到的数据发到引用请求的地方
+//         })
+//         .catch(error => {
+//           console.log('请求异常信息：' + error);
+//           reject(error);
+//         });
+//     });
+//   },
+//   axiosGet: function (getUrl, params) {
+//     // let postInfo = new URLSearchParams();
+//     // for (var paramKey in postObj.params) {
+//     //   postInfo.append(paramKey, postObj.params[paramKey]);
+//     // }
+//     return new Promise((resolve, reject) => {
+//       //   axios.defaults.headers['token'] = 'fdsfadsfPerryXiang1';
+//       const token = storageOperation.getItem(commonConfig.Token) || '';
+//       axios.get(getUrl, {
+//           params: params,
+//           headers: {
+//             'accept': 'application/json',
+//             // 'accept-language': 'en_US',
+//             'Content-Type': 'application/x-www-form-urlencoded',
+//             // 'Access-Control-Allow-Headers': 'token,Access-Control-Allow-Headers'
+//             // 'token': 'fdsfadsfPerryXiang2'
+//             'token': token //Access-Control-Allow-Headers: Content-Type(后台需要在web.config里面添加允许的头部字段)
+//           }
+//         }).then(response => { //then 请求成功之后进行什么操作
+//           resolve(response); //把请求到的数据发到引用请求的地方
+//         })
+//         .catch(error => {
+//           console.log('请求异常信息：' + error);
+//           reject(error);
+//         });
+//     });
+//   }
+// }
 
 const RouteMark={
   Github:"Github",
@@ -289,7 +289,7 @@ const RouteMark={
 
 const QuickVue={
   vue:Vue,
-  message:Vue.$message,
+  // message:Vue.$message,
   getMsg(win){
    return  win.$message
   }
@@ -301,7 +301,7 @@ export {
   GITHUB_URL,
   isNull,
   isNullUndefEmpty,
-  axiosRequest,
+  // axiosRequest,
   storageOperation,
   ObjToArray,
   twoArrayDivide,
@@ -311,7 +311,7 @@ export {
   getDigitsCss,
   getShortName,
   getSplitData,
-  executeAnimation,
+  // executeAnimation,
   formSourceData,
   getLastMonth,
   getLastDay,

@@ -1,0 +1,102 @@
+[
+  {
+    "id": 41,
+    "repo_name": "TheAlgorithms/Java",
+    "page": 1,
+    "sketch": "All Algorithms implemented in Java",
+    "topics": "[\"algorithms\",\"data-structures\",\"java\",\"hacktoberfest\",\"algorithm\",\"search\",\"sort\",\"sorting-algorithms\",\"algorithm-challenges\",\"algorithms-datastructures\"]",
+    "star": "44.4k",
+    "query_word": "java",
+    "create_time": null
+  },
+  {
+    "id": 42,
+    "repo_name": "DuGuQiuBai/Java",
+    "page": 1,
+    "sketch": "27天成为Java大神",
+    "topics": "[]",
+    "star": "9.3k",
+    "query_word": "java",
+    "create_time": null
+  },
+  {
+    "id": 43,
+    "repo_name": "Snailclimb/JavaGuide",
+    "page": 1,
+    "sketch": "「Java学习+面试指南」一份涵盖大部分 Java 程序员所需要掌握的核心知识。准备 Java 面试，首选 JavaGuide！",
+    "topics": "[\"java\",\"jvm\",\"mysql\",\"interview\",\"redis\",\"spring\",\"system\",\"algorithms\",\"zookeeper\",\"system-design\"]",
+    "star": "117k",
+    "query_word": "java",
+    "create_time": null
+  },
+  {
+    "id": 44,
+    "repo_name": "singgel/JAVA",
+    "page": 1,
+    "sketch": "存放JAVA开发的设计思想、算法：《剑指Offer》、《编程珠玑》、《深入理解Java虚拟机：JVM高级特性与最佳实践》、《重构-改善既有代码的设计 中文版》、《clean_code(中文完整版)》、《Java编程思想(第4版)》、《J…",
+    "topics": "[]",
+    "star": "2.8k",
+    "query_word": "java",
+    "create_time": null
+  },
+  {
+    "id": 45,
+    "repo_name": "HelloWorld521/Java",
+    "page": 1,
+    "sketch": "java项目实战练习",
+    "topics": "[\"java\"]",
+    "star": "2k",
+    "query_word": "java",
+    "create_time": null
+  },
+  {
+    "id": 46,
+    "repo_name": "kubernetes-client/java",
+    "page": 1,
+    "sketch": "Official Java client library for kubernetes",
+    "topics": "[\"3 issues need help\"]",
+    "star": "2.2k",
+    "query_word": "java",
+    "create_time": null
+  },
+  {
+    "id": 47,
+    "repo_name": "hmkcode/Java",
+    "page": 1,
+    "sketch": "Java related code",
+    "topics": "[]",
+    "star": "675",
+    "query_word": "java",
+    "create_time": null
+  },
+  {
+    "id": 48,
+    "repo_name": "gaopu/Java",
+    "page": 1,
+    "sketch": "一些用Java写的小东西（没什么用，大家不要star了😄）",
+    "topics": "[]",
+    "star": "1.2k",
+    "query_word": "java",
+    "create_time": null
+  },
+  {
+    "id": 49,
+    "repo_name": "pubnub/java",
+    "page": 1,
+    "sketch": "PubNub Java-based APIs for core Java, Android",
+    "topics": "[]",
+    "star": "560",
+    "query_word": "java",
+    "create_time": null
+  },
+  {
+    "id": 50,
+    "repo_name": "bjmashibing/java",
+    "page": 1,
+    "sketch": "",
+    "topics": "[]",
+    "star": "",
+    "query_word": "java",
+    "create_time": null
+  }
+]

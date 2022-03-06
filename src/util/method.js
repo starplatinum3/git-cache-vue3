@@ -32,6 +32,8 @@
 
 // 这不会自动引入包
 import strUtil from "./strUtil";
+import Global from "@/util/global";
+import axios from "axios";
 
 const method = {
 
@@ -117,7 +119,21 @@ const method = {
     //     console.log("error");
     //     console.log(error);
     // });
-  }
+  },
+    postV3(url, data){
+        const jsonDic = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8' // 头部信息
+            }
+        }
+
+        var postUrl = strUtil.urlAdd(Global.axiosUrl, url)
+        // return vue.$axios.post(vue._api + url,
+        return  axios.post(postUrl,data, jsonDic)
+        // return vue.$axios.post(postUrl,
+        //     data, jsonDic
+        // )
+    }
 
 }
 

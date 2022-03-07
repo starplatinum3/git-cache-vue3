@@ -1,5 +1,6 @@
 <template>
-  <b-navbar id="navbar" class="custom-info" type="dark" sticky>
+<!-- type="dark" -->
+  <b-navbar  id="navbar" type="dark"  class="custom-info dark"  sticky>
     <b-navbar-brand id="nav-logo" :to="{ name: 'home' }"
       >Vue-Quiz</b-navbar-brand
     >
@@ -18,4 +19,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* scoped */
+.dark{
+ background: black;
+}
+</style>

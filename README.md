@@ -96,3 +96,6 @@ import scss
 
         事件
 2022年3月7日13:05:41
+
+
+cnpm install bootstrap bootstrap-vue-3  -S

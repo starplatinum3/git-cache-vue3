@@ -17,12 +17,14 @@
 <script>
     import HelloWorld from './components/HelloWorld.vue'
     import { useRouter } from "vue-router";
+// import strUtil from './util/strUtil';
     export default {
         name: 'App',
         components: {
             // HelloWorld
         },
         setup(props, context) {
+            // strUtil
             const router = useRouter();
 
             const toGithub = async () => {

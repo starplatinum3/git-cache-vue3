@@ -1,6 +1,7 @@
 <template>
   <div class="h-100">
-    <b-card-header class="custom-info text-white font-weight-bold"
+    <!-- text-white -->
+    <b-card-header class="custom-info  font-weight-bold"
       >Your Score: {{ score }} / {{ maxScore }}</b-card-header
     >
     <Answer
@@ -8,6 +9,8 @@
       :key="index"
       :question="question"
     ></Answer>
+    <!-- <b-button></b-button> -->
+      <b-button type="submit" class="custom-success" @click="toHome">toHome</b-button>
   </div>
 </template>
 
@@ -30,6 +33,12 @@ export default {
     };
   },
   methods: {
+
+    toHome(){
+
+this.$router.push("home")
+// router. 
+    },
     /** Invoked on created().
      * Grabs data from $root.$data.state.
      * Empties $root.$data.state => This is done to ensure data is cleared when starting a new game.

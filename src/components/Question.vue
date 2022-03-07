@@ -1,7 +1,7 @@
 <template>
   <div>
     <QuestionBody :questionData="question.questionData"></QuestionBody>
-
+  <!-- v-model:value="answer" -->
     <b-card-body class="pt-0">
       <hr />
       <b-form @submit="onSubmit">
@@ -9,7 +9,8 @@
           <b-form-radio
             v-for="(ans, index) of question.answers"
             :key="index"
-            v-model:value="answer"
+            v-model="answer"
+          
             :value="ans"
           >
             <div v-html="ans"></div>
@@ -46,7 +47,11 @@ export default {
   },
   methods: {
     onSubmit(evt) {
+      console.log("onSubmit");
+      // console.log(onSubmit);
       evt.preventDefault()
+      console.log("this.answer");
+      console.log(this.answer);
       if (this.answer) {
         /** Triggered on form submit. Passes user answer.
          * @event answer-submitted

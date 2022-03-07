@@ -26,6 +26,13 @@ installElementPlus(app)
 // const ip = '139.196.8.79'
 // const ip = '139.196.8.79'
 
+import store from './store'
+
+
+
+
+
+
 import ElementPlus from "element-plus";
 
 const ip = 'localhost'
@@ -58,6 +65,11 @@ const Vue = createApp(App)
 
 // Vue3必备
 // Vue.mount('#app')
+import BootstrapVue3 from 'bootstrap-vue-3'
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
+
 
 
 //
@@ -86,10 +98,14 @@ const Vue = createApp(App)
 // vue 3  Vue .use
 // https://blog.csdn.net/weixin_41981909/article/details/116496553
 
+// const app = createApp(App)
+// app.use(BootstrapVue3)
+
 Vue.use(router).use(ElementPlus).// use(ImageViewer).
 // use(VueCookies).
 // use(ElementUI).
 // use(VueResource).
+use(BootstrapVue3).
 use(VMdPreview).mount('#app')
 
 // createApp(App).use(router).

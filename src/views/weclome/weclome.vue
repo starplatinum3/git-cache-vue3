@@ -1,10 +1,16 @@
 <template>
-	<view>
+<div>
+		<div class="footer">
+			<!-- <button type="default" @tap="loadToIndex">进入考试</button> -->
+				<button type="default" @click="loadToIndex">进入考试</button>
+		</div>
+</div>
+	<!-- <view>
 
 		<view class="footer">
 			<button type="default" @tap="loadToIndex">进入考试</button>
 		</view>
-	</view>
+	</view> -->
 </template>
 
 <script>
@@ -27,17 +33,18 @@
 
 			console.log("Global.axiosUrl")
 			console.log(Global.axiosUrl)
-				uni.navigateTo({
-					url: '../paperType/paperType',
-					success: res => {
-						setTimeout(function(){
-							uni.showLoading({
-								title: '跳转中,请稍后',
-								mask: false
-							},3000);
-						});
-					},
-				});
+			this.$router.push("paperType")
+				// uni.navigateTo({
+				// 	url: '../paperType/paperType',
+				// 	success: res => {
+				// 		setTimeout(function(){
+				// 			uni.showLoading({
+				// 				title: '跳转中,请稍后',
+				// 				mask: false
+				// 			},3000);
+				// 		});
+				// 	},
+				// });
 			}
 		}
 	}

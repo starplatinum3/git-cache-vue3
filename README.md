@@ -79,3 +79,20 @@ v-md-editor 这个是真的好看
 
 转移到 vue3  git cache ，比较适合手机吧
 2022年3月6日22:11:50
+
+1:1  error  Parsing error: Unexpected token <
+
+import scss
+引入 uni scss
+
+
+  // props: (route) => ({ 
+        //   number: route.query.number, 
+        //   difficulty: route.query.difficulty, 
+        //   category: route.query.category,
+        //   type: route.query.type
+        // })
+        // 有这个就进不去。。
+
+        事件
+2022年3月7日13:05:41

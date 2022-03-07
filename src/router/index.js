@@ -66,7 +66,37 @@ const routes = [
         path: '/Welcome',
         name: 'Welcome',
         component: () => import( '../views/weclome/weclome.vue')
-    }
+    },
+    {
+        path: '/paperType',
+        name: 'paperType',
+        component: () => import( '../views/paperType/paperType.vue')
+    },
+    {
+        name: 'result',
+        path: '/result',
+        component: () => import( '../views/GameOver.vue')
+      },
+      {
+        name: 'home',
+        path: '/home',
+        component: () => import( '../views/MainMenu.vue')
+        // component: MainMenu
+      }, {
+        name: 'quiz',
+        path: '/quiz',
+        // component: GameController,
+        component: () => import( '../views/GameController.vue'),
+        // props: (route) => ({ 
+        //   number: route.query.number, 
+        //   difficulty: route.query.difficulty, 
+        //   category: route.query.category,
+        //   type: route.query.type
+        // })
+        // 有这个就进不去。。
+      },
+
+    
 ]
 
 const router = createRouter({

@@ -35,7 +35,8 @@
             };
 
             return {
-                toGithub
+                toGithub,
+                toWelcome
             };
         },
     }

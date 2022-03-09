@@ -1,7 +1,11 @@
 # git-cache
 
  http://starplatinumora.top:8086/  在线预览 要点击 toGithub 进入
- 
+ 项目文档
+ https://acc15t4bm5.feishu.cn/docs/doccnLnginRRAuyalHbuiCevYhf
+ 后端
+ https://gitee.com/starplatinum111/git-cache-egg-pub
+
 ## Project setup
 ```
 npm install

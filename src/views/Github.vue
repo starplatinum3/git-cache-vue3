@@ -95,7 +95,18 @@
     <!--    </el-table>-->
     <!--    </keep-alive>-->
     <!--    https://blog.csdn.net/woshisangsang/article/details/113539967-->
+  用户名<el-input v-model="username"></el-input>
+  仓库名字  <el-input v-model="repo"></el-input>
 
+<!-- <el-row>
+    <el-input v-model="username">用户名</el-input>
+</el-row>
+<el-row>
+    仓库名字  <el-input v-model="repo"></el-input>
+</el-row> -->
+      
+        
+        <el-button type="primary" @click="makeUrl" class="submit">makeUrl</el-button>
     <div class="white">网址</div>
     <el-input v-model="netUrl"></el-input>
 
@@ -183,6 +194,11 @@
         <p>主题 {{repo.topics}}</p>
       </el-card>
     </div>
+ <el-input type="textarea" :rows="2" placeholder="请输入标题" v-model="postTitle"></el-input>
+    <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="postIssue"></el-input>
+    <el-button type="primary" @click="submitIssue" class="submit">提交issue</el-button>
+    <el-button type="primary" @click="toLogin" class="submit">toLogin</el-button>
+  <el-button type="primary" @click="toComic" class="submit">toComic</el-button>
   </div>
 </template>
 
@@ -201,10 +217,47 @@ import util from "../util/util";
 import axios from "axios";
 // import {codeError} from "../common/common";
 import { ElMessage } from "element-plus";
-
+import $store from "../store/index";
 export default {
   name: "GithubHome",
   methods: {
+    toLogin(){
+this.$router.push('Login');
+    },
+    toComic(){
+this.$router.push('Comic');
+    },
+    submitIssue(){
+
+     this. auth=$store.state.auth
+// this.questions = $store.state.questions;
+let data={
+    owner:this.username,
+      repo: this.repo,
+      title: this.postTitle,
+      //  body: this.issuePost.body
+         body: this.postIssue,
+         auth:this.auth
+}
+console.log("data");
+console.log(data);
+ method
+        .postV3("/issue/CreateIssue", data)
+        .then(response => {
+          if (response.data.port === codeError) {
+            this.$message.error("账号或者密码有误");
+          } else {
+            // this.issues=response.data.data;
+            // this.tableData=response.data.data;
+            let res = response.data.data;
+            console.log("res");
+             console.log(res);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -547,6 +600,13 @@ export default {
       // this.$cookies.set(apiMark,api);
     },
 
+    makeUrl(){
+      this.netUrl=`https://github.com/${this.username}/${this.repo}`
+  let  api = "https://api.github.com/repos/" + this.username + "/" + this.repo;
+
+      this.api = api;
+    },
+
     // parseApi(crtUrl) {
     //     var urlSplit = crtUrl.split('/');
     //     //console.log(urlSplit);//list
@@ -776,11 +836,13 @@ export default {
     ];
 
     return {
+    auth:null,
       repoInfoGet: null,
       total_issues: null,
       api: null,
       // netUrl:null,
-      netUrl: "https://github.com/moshowgame/SpringBootCodeGenerator",
+      // netUrl: "https://github.com/moshowgame/SpringBootCodeGenerator",
+       netUrl: "https://github.com/starplatinum3/starplatinum",
       repoInfo: {},
       // tableData: issues,
       tableData: null,
@@ -790,7 +852,11 @@ export default {
       // git_page_repos: git_page_repos,
       git_page_repos: null,
       reposQuery: reposQuery,
-      getReposStatus: "请输入查询"
+      getReposStatus: "请输入查询",
+      postIssue:null,
+      username:null,
+      repo:null,
+        postTitle:null,
     };
   }
 };

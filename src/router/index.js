@@ -95,7 +95,19 @@ const routes = [
         // })
         // 有这个就进不去。。
       },
-
+      {
+        name: 'Login',
+        path: '/Login',
+        component: () => import( '../views/Login.vue'),
+     
+      },
+      {
+        name: 'Comic',
+        path: '/Comic',
+        component: () => import( '../views/Commic.vue'),
+    
+      },
+      
     
 ]
 
@@ -103,5 +115,17 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
+
+router.onError((error) => {
+    const pattern = /Loading chunk (\d)+ failed/g;
+    const isChunkLoadFailed = error.message.match(pattern);
+    if (isChunkLoadFailed) {
+      window.location.reload();
+      // router.replace(router.history.pending.fullPath);
+    }else{
+      console.log(error)
+    }
+  });
+  
 
 export default router

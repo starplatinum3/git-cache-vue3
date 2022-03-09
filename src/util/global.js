@@ -1,8 +1,10 @@
 
 
-const ip = 'localhost'
+// const ip = 'localhost'
 // const port = '8889'
 const port = '7001'
+
+const ip = 'starplatinumora.top'
 const axiosUrl = `http://${ip}:${port}/`
 
 const GITHUB_URL="https://github.com"

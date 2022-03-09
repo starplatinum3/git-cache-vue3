@@ -47,7 +47,7 @@
 </template>
 
 <script>
-  import Comic from "../entity/Comic";
+  // import Comic from "../entity/Comic";
   import method from "../util/method";
   import {codeError, codeSuccess} from "../common/common";
   // codeError
@@ -88,19 +88,24 @@
 
                 // method.
                 // method.post()
-                var comic=Comic()
-                comic.volume=1
+                // var comic=Comic()
+                // comic.volume=1
                 // 问后台要数据
-                method.post("comic/list",this.comicForm,this)
+                let data={
+                  volume:1
+                }
+                // method.post("comic/list",this.comicForm,this)
+                    //  method.post("comic/list",data,this)
+                         method.postV3("comic/list",data)
                     .then(response => {
 
                         if(response.data.port=="400") {
                             this.$message.error('账号或者密码有误');
                         }else{
-                            this.$message.success('登录成功');
-                            localStorage.setItem('ms_username', this.param.username);
-                            this.$cookies.set("token",response.data.token);
-                            this.$router.push('/');
+                            this.$message.success('查询漫画成功');
+                            // localStorage.setItem('ms_username', this.param.username);
+                            // this.$cookies.set("token",response.data.token);
+                            // this.$router.push('/');
                         }
                     })
                     .catch(function(error) {

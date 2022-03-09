@@ -32,6 +32,9 @@ const strUtil = {
 
     url+=addStr
     return url
+  },
+  isEmpty(string){
+       return string===null||string===undefined||string===""
   }
 }
 

@@ -1,10 +1,18 @@
 # git-cache
 
- http://starplatinumora.top:8086/  在线预览 要点击 toGithub 进入
- 项目文档
- https://acc15t4bm5.feishu.cn/docs/doccnLnginRRAuyalHbuiCevYhf
- 后端
- https://gitee.com/starplatinum111/git-cache-egg-pub
+基于github api，缓存github数据，以求在国内可以较快查询github项目和issue等的小工具
+https://gitee.com/starplatinum111/git-cache-vue3
+
+http://starplatinumora.top:8086/ 在线预览 要点击 toGithub 进入 
+项目文档 https://acc15t4bm5.feishu.cn/docs/doccnLnginRRAuyalHbuiCevYhf 
+后端 https://gitee.com/starplatinum111/git-cache-egg-pub
+
+可在此查看图片 有道云笔记 (youdao.com)
+https://note.youdao.com/ynoteshare/index.html?id=96502872592c167e269ab8f8d998dfe3&type=note&_time=1646188803660
+
+解决了不知道如何用cheario在某个节点下面搜索子节点的问题
+
+
 
 ## Project setup
 ```
@@ -50,14 +58,14 @@ D:\proj\vue\git-cache\src\src\views\Home.vue
 
   46:9  error  The `beforeDestroy` lifecycle hook is deprecated. Use `beforeUnmount` 
   instead  vue/no-deprecated-destroyed-lifecycle
-  
+
  2022年2月24日14:07:54
  lab1
  这本书  【正版】轻松学Vue js 3 0从入门到实战(案例 视频 彩色版) 刘兵 中国水利水电出版社 97
  https://item.jd.com/10039693549582.html
- 
+
  2022年2月24日14:50:39
- 
+
  D:\proj\vue\git-cache>vue add element-plus
  挂了
 

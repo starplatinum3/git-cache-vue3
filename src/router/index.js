@@ -107,7 +107,13 @@ const routes = [
         component: () => import( '../views/Commic.vue'),
     
       },
-      
+      {
+        name: 'NoteBook',
+        path: '/NoteBook',
+        component: () => import( '../views/NoteBook/NoteBook.vue'),
+    
+      },
+       
     
 ]
 

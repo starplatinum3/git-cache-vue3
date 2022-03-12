@@ -12,6 +12,7 @@
     <router-view></router-view>
     <el-button type="primary" @click="toGithub">toGithub</el-button>
     <el-button type="primary" @click="toWelcome">toWelcome</el-button>
+     <el-button type="primary" @click="toNoteBook">toNoteBook</el-button>
 </template>
 
 <script>
@@ -33,6 +34,10 @@
             };
             const toWelcome = async () => {
                 await router.push("Welcome")
+
+            };
+               const toNoteBook = async () => {
+                await router.push("NoteBook")
 
             };
 

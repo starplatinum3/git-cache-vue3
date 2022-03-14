@@ -4,15 +4,33 @@
     <!--    <p> {{content}}</p>-->
     <el-card style="margin-bottom: 20px">
       <div style="margin-left: 20px">
-        <h2>{{issue.title}}</h2>
+        <h2>{{ issue.title }}</h2>
         <!--      <p> {{issue.body}}</p>-->
         <!--      <vue-markdown>i am a ~~tast~~ **test**.</vue-markdown>-->
         <!--                <vue-markdown>{{issue.body}}</vue-markdown>-->
         <v-md-preview :text="issue.body"></v-md-preview>
         <!--                <p>  {{issue.body}}</p>-->
-        {{api}} id:{{issue.number}} {{issue.state}}
-        {{issue.created_at}} {{issue.updated_at}} {{issue.closed_at}}
-        {{issue.authorAssociation}} {{issue.user.login}} {{issue.reactions.totalCount}}
+       
+        <!-- <div> {{ api }}</div> -->
+        <el-input v-model="api"></el-input>
+         id:{{ issue.number }} {{ issue.state }}
+        <div class="little-time time">
+          <el-row>
+            创建于
+            <DateShow class="little-time" :date="issue.created_at"></DateShow
+          ></el-row>
+          <el-row>
+            更新于
+            <DateShow class="updated_at" :date="issue.updated_at"></DateShow
+          ></el-row>
+          <el-row>
+            关闭于
+            <DateShow class="updated_at" :date="issue.closed_at"></DateShow
+          ></el-row>
+        </div>
+        <!-- {{issue.created_at}} {{issue.updated_at}} {{issue.closed_at}} -->
+        {{ issue.authorAssociation }} {{ issue.user.login }}
+        {{ issue.reactions.totalCount }}
         <!--                <p> api {{api}}</p>-->
         <!--                <p> api {{api}}</p>-->
 
@@ -55,10 +73,12 @@
     <!--            <div>鼓掌</div>-->
     <!--            <div>角色</div>-->
     <!--        </div>-->
-    <el-button type="primary" @click="toGithub" class="submitBtn">返回github首页</el-button>
+    <el-button type="primary" @click="toGithub" class="submitBtn"
+      >返回github首页</el-button
+    >
 
     <p>回复</p>
-    <p>评论数 {{issue.comments}}</p>
+    <p>评论数 {{ issue.comments }}</p>
     <!--    <div v-for="cm"></div>-->
     <div :key="comment.id" v-for="comment in comments">
       <!--      {{ tab.text }}-->
@@ -71,9 +91,10 @@
         <!--                <div>{{comment.body}}</div>-->
         <v-md-preview :text="comment.body"></v-md-preview>
         <!--        <div>用户: {{comment.user.login}}</div>-->
-        用户: {{comment.user.login}}
-        创建时间：{{comment.created_at}}
-        更新时间：{{comment.updated_at}}
+        用户: {{ comment.user.login }} 创建时间：{{
+          comment.created_at
+        }}
+        更新时间：{{ comment.updated_at }}
         <!--                创建时间：{{comment.createdAt}}-->
         <!--                更新时间：{{comment.updatedAt}}-->
 
@@ -90,12 +111,20 @@
     placeholder="Please input"
     />-->
 
-    <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="textarea"></el-input>
-    <el-button type="primary" @click="submitCmt" class="submitCmt">评论</el-button>
+    <el-input
+      type="textarea"
+      :rows="2"
+      placeholder="请输入内容"
+      v-model="textarea"
+    ></el-input>
+    <el-button type="primary" @click="submitCmt" class="submitCmt"
+      >评论</el-button
+    >
   </div>
 </template>
 
 <script>
+import DateShow from "@/components/date-show";
 import method from "../util/method";
 import { apiMark, codeError, RouteMark } from "../common/common";
 import util from "../util/util";
@@ -108,42 +137,42 @@ export default {
   name: "starp-issue",
   components: {
     // VueMarkdown
+    DateShow,
   },
   // 代码来自
   // G:\project\JSProject\gissue.github.io\js\gissue.js
   methods: {
     submitCmt() {
-        // strUtil. isEmpty(this.textarea)
-        // js 判断空
-    //   if (this.textarea === "") {
-     if ( strUtil. isEmpty(this.textarea)) {
+      // strUtil. isEmpty(this.textarea)
+      // js 判断空
+      //   if (this.textarea === "") {
+      if (strUtil.isEmpty(this.textarea)) {
         this.$message.error("请输入");
         return;
       }
-      if(issueId===null){
-           this.$message.error("没有 issue id 请查看");
+      if (issueId === null) {
+        this.$message.error("没有 issue id 请查看");
         return;
       }
       let data = {
-        issue_number:issueId,
-        body:this.textarea
+        issue_number: issueId,
+        body: this.textarea,
       };
       method
         .postV3("/comment/CreateIssueComment", data)
-        .then(response => {
+        .then((response) => {
           console.log("response");
           console.log(response);
 
           if (response.data.code === codeError) {
             this.$message.error("账号或者密码有误");
           } else {
-               this.$message.success(response.data.data);
-        
+            this.$message.success(response.data.data);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
-           this.$message.error(error);
+          this.$message.error(error);
         });
     },
     getComments() {
@@ -165,12 +194,12 @@ export default {
       // let urlGetIss=  strUtil.urlAdd(api,`/issues/${issueId}`)
 
       let data = {
-        commentsUrl: url
+        commentsUrl: url,
       };
       // method.post("/comment/comments", data, this)
       method
         .postV3("/comment/comments", data)
-        .then(response => {
+        .then((response) => {
           console.log("response");
           console.log(response);
 
@@ -180,7 +209,7 @@ export default {
             // this.$message.success('登录成功');
             this.comments = response.data.data;
 
-            this.comments.forEach(o => {
+            this.comments.forEach((o) => {
               if (typeof o.user === "string") {
                 console.log("parse user");
                 o.user = JSON.parse(o.user);
@@ -194,7 +223,7 @@ export default {
             console.log(this.comments);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -222,7 +251,7 @@ export default {
     postTest() {
       var user = {
         login: "login",
-        nodeId: "nodeId"
+        nodeId: "nodeId",
       };
       var userStr = JSON.stringify(user);
       var issueForm = {
@@ -257,7 +286,7 @@ export default {
         user: userStr,
         userAvatar: "string",
         userName: "string",
-        userUrl: "string"
+        userUrl: "string",
       };
 
       // user 不是string
@@ -265,7 +294,7 @@ export default {
       console.log(issueForm);
       method
         .post("/issue/save", issueForm, this)
-        .then(response => {
+        .then((response) => {
           console.log("response");
           console.log(response);
 
@@ -278,7 +307,7 @@ export default {
             this.$router.push("/");
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -299,7 +328,7 @@ export default {
       //     this.form = row;
       //     this.editVisible = true;
       // }
-    }
+    },
 
     // onIssueClicked(evt){
     //     // 获取点击的 对象 a vue
@@ -317,8 +346,7 @@ export default {
   },
   data() {
     let comment = {
-      url:
-        "https://api.github.com/repos/vmg/redcarpet/issues/comments/787130124",
+      url: "https://api.github.com/repos/vmg/redcarpet/issues/comments/787130124",
       html_url:
         "https://github.com/vmg/redcarpet/issues/690#issuecomment-787130124",
       issue_url: "https://api.github.com/repos/vmg/redcarpet/issues/690",
@@ -346,16 +374,14 @@ export default {
         received_events_url:
           "https://api.github.com/users/robin850/received_events",
         type: "User",
-        site_admin: false
+        site_admin: false,
       },
       created_at: "2021-02-27T20:24:06Z",
       updated_at: "2021-02-27T20:24:06Z",
       author_association: "COLLABORATOR",
-      body:
-        "Hello,\r\n\r\nSorry for the late answer but actually the problem lies in the fact that `Redcarpet::Render::Base` doesn't implement any method by default ; `nil` is returned from every callback so you have to provide an implementation for each of them.\r\n\r\nThus, to fix your problem, you might have to do the following:\r\n\r\n~~~ruby\r\nclass ArticleCardHTMLRender < Redcarpet::Render::Base\r\n  def paragraph(text)\r\n    %(<p>#{text}</p>)\r\n  end\r\n\r\n  # ...\r\nend\r\n~~~\r\n\r\nOr extends from `Redcarpet::Render::HTML` as you mentioned (it's generally easier to go this way).",
+      body: "Hello,\r\n\r\nSorry for the late answer but actually the problem lies in the fact that `Redcarpet::Render::Base` doesn't implement any method by default ; `nil` is returned from every callback so you have to provide an implementation for each of them.\r\n\r\nThus, to fix your problem, you might have to do the following:\r\n\r\n~~~ruby\r\nclass ArticleCardHTMLRender < Redcarpet::Render::Base\r\n  def paragraph(text)\r\n    %(<p>#{text}</p>)\r\n  end\r\n\r\n  # ...\r\nend\r\n~~~\r\n\r\nOr extends from `Redcarpet::Render::HTML` as you mentioned (it's generally easier to go this way).",
       reactions: {
-        url:
-          "https://api.github.com/repos/vmg/redcarpet/issues/comments/787130124/reactions",
+        url: "https://api.github.com/repos/vmg/redcarpet/issues/comments/787130124/reactions",
         total_count: 0,
         "+1": 0,
         "-1": 0,
@@ -364,39 +390,39 @@ export default {
         confused: 0,
         heart: 0,
         rocket: 0,
-        eyes: 0
+        eyes: 0,
       },
-      performed_via_github_app: null
+      performed_via_github_app: null,
     };
     let comments = [comment, comment];
 
     var issues = [
       {
         title: "111",
-        url: "url"
-      }
+        url: "url",
+      },
     ];
     var originData = [
       {
         date: "2016-05-02",
         name: "王小虎",
-        address: "上海市普陀区金沙江路 1518 弄"
+        address: "上海市普陀区金沙江路 1518 弄",
       },
       {
         date: "2016-05-04",
         name: "王小虎",
-        address: "上海市普陀区金沙江路 1517 弄"
+        address: "上海市普陀区金沙江路 1517 弄",
       },
       {
         date: "2016-05-01",
         name: "王小虎",
-        address: "上海市普陀区金沙江路 1519 弄"
+        address: "上海市普陀区金沙江路 1519 弄",
       },
       {
         date: "2016-05-03",
         name: "王小虎",
-        address: "上海市普陀区金沙江路 1516 弄"
-      }
+        address: "上海市普陀区金沙江路 1516 弄",
+      },
     ];
 
     let issue = {
@@ -405,10 +431,8 @@ export default {
       userUrl: null,
       userAvatar: null,
       date: null,
-      url:
-        "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122",
-      body:
-        "背景 : 当重新打开一个页面时,有很多设置需要重复操作,浪费时间\r\n修改 :\r\n    1 main.html: 增加 加载 cookie 的逻辑\r\n    2 common.js: 增加 cookie 设置 和 get 的 通用逻辑\r\n    3 main.js: 增加 将所有需要纪录的字段写入cookie逻辑,并加载到页面",
+      url: "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122",
+      body: "背景 : 当重新打开一个页面时,有很多设置需要重复操作,浪费时间\r\n修改 :\r\n    1 main.html: 增加 加载 cookie 的逻辑\r\n    2 common.js: 增加 cookie 设置 和 get 的 通用逻辑\r\n    3 main.js: 增加 将所有需要纪录的字段写入cookie逻辑,并加载到页面",
       repositoryUrl:
         "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator",
       labelsUrl:
@@ -421,8 +445,7 @@ export default {
       nodeId: "PR_kwDOCMCWTc4sin5A",
       number: 122,
       title: "避免重复配置",
-      user:
-        '{"avatarUrl":"https://avatars.githubusercontent.com/u/45098520?v=4","eventsUrl":"https://api.github.com/users/Thixiaoxiao/events{/privacy}","followersUrl":"https://api.github.com/users/Thixiaoxiao/followers","followingUrl":"https://api.github.com/users/Thixiaoxiao/following{/other_user}","gistsUrl":"https://api.github.com/users/Thixiaoxiao/gists{/gist_id}","gravatarId":"","htmlUrl":"https://github.com/Thixiaoxiao","id":45098520,"login":"Thixiaoxiao","nodeId":"MDQ6VXNlcjQ1MDk4NTIw","organizationsUrl":"https://api.github.com/users/Thixiaoxiao/orgs","receivedEventsUrl":"https://api.github.com/users/Thixiaoxiao/received_events","reposUrl":"https://api.github.com/users/Thixiaoxiao/repos","siteAdmin":0,"starredUrl":"https://api.github.com/users/Thixiaoxiao/starred{/owner}{/repo}","subscriptionsUrl":"https://api.github.com/users/Thixiaoxiao/subscriptions","type":"User","url":"https://api.github.com/users/Thixiaoxiao"}',
+      user: '{"avatarUrl":"https://avatars.githubusercontent.com/u/45098520?v=4","eventsUrl":"https://api.github.com/users/Thixiaoxiao/events{/privacy}","followersUrl":"https://api.github.com/users/Thixiaoxiao/followers","followingUrl":"https://api.github.com/users/Thixiaoxiao/following{/other_user}","gistsUrl":"https://api.github.com/users/Thixiaoxiao/gists{/gist_id}","gravatarId":"","htmlUrl":"https://github.com/Thixiaoxiao","id":45098520,"login":"Thixiaoxiao","nodeId":"MDQ6VXNlcjQ1MDk4NTIw","organizationsUrl":"https://api.github.com/users/Thixiaoxiao/orgs","receivedEventsUrl":"https://api.github.com/users/Thixiaoxiao/received_events","reposUrl":"https://api.github.com/users/Thixiaoxiao/repos","siteAdmin":0,"starredUrl":"https://api.github.com/users/Thixiaoxiao/starred{/owner}{/repo}","subscriptionsUrl":"https://api.github.com/users/Thixiaoxiao/subscriptions","type":"User","url":"https://api.github.com/users/Thixiaoxiao"}',
       state: "closed",
       labels: "[]",
       locked: 0,
@@ -439,7 +462,7 @@ export default {
         '{"confused":0,"eyes":0,"heart":0,"hooray":0,"laugh":0,"rocket":0,"totalCount":0,"url":"https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122/reactions"}',
       timelineUrl:
         "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122/timeline",
-      performedViaGithubApp: null
+      performedViaGithubApp: null,
     };
 
     let issueTml = {
@@ -448,10 +471,8 @@ export default {
       userUrl: null,
       userAvatar: null,
       date: null,
-      url:
-        "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122",
-      body:
-        "背景 : 当重新打开一个页面时,有很多设置需要重复操作,浪费时间\r\n修改 :\r\n    1 main.html: 增加 加载 cookie 的逻辑\r\n    2 common.js: 增加 cookie 设置 和 get 的 通用逻辑\r\n    3 main.js: 增加 将所有需要纪录的字段写入cookie逻辑,并加载到页面",
+      url: "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122",
+      body: "背景 : 当重新打开一个页面时,有很多设置需要重复操作,浪费时间\r\n修改 :\r\n    1 main.html: 增加 加载 cookie 的逻辑\r\n    2 common.js: 增加 cookie 设置 和 get 的 通用逻辑\r\n    3 main.js: 增加 将所有需要纪录的字段写入cookie逻辑,并加载到页面",
       repositoryUrl:
         "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator",
       labelsUrl:
@@ -470,8 +491,7 @@ export default {
         nodeId: null,
         avatarUrl: null,
         gravatarId: null,
-        url:
-          "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122/reactions",
+        url: "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122/reactions",
         htmlUrl: null,
         followersUrl: null,
         followingUrl: null,
@@ -483,7 +503,7 @@ export default {
         eventsUrl: null,
         receivedEventsUrl: null,
         type: null,
-        siteAdmin: null
+        siteAdmin: null,
       },
       state: "closed",
       labels: [],
@@ -499,8 +519,7 @@ export default {
       activeLockReason: null,
       reactions: {
         id: null,
-        url:
-          "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122/reactions",
+        url: "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122/reactions",
         totalCount: 0,
         addOne: null,
         minusOne: null,
@@ -509,11 +528,11 @@ export default {
         hooray: 0,
         confused: 0,
         rocket: 0,
-        eyes: 0
+        eyes: 0,
       },
       timelineUrl:
         "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/122/timeline",
-      performedViaGithubApp: null
+      performedViaGithubApp: null,
     };
 
     return {
@@ -532,7 +551,7 @@ export default {
       // },
       // issue: null,
       api: null,
-      issueId:null,
+      issueId: null,
     };
   },
   created() {
@@ -560,7 +579,7 @@ export default {
     // method.post("/issue/getIssue", {url: urlGetIss}, this)
     method
       .postV3("/issue/getIssue", { url: urlGetIss })
-      .then(response => {
+      .then((response) => {
         console.log("response");
         console.log(response);
 
@@ -584,7 +603,7 @@ export default {
           }
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
 
@@ -607,12 +626,23 @@ export default {
     //     .catch(function (error) {
     //         console.log(error);
     //     });
-  }
+  },
 };
 </script>
 <!--其他地方定义的 css 不引入的话 应该不行的吧-->
 <style type="text/css">
 .white {
   color: white;
+}
+/* .little-time {
+  margin-right: 10px;
+  margin-left: 5px;
+} */
+.little-time {
+  font-size: 50%;
+  display: flex;
+  flex-direction: row;
+  /* font-size: 50%; */
+  margin-top: 10px;
 }
 </style>

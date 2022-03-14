@@ -113,8 +113,18 @@ const routes = [
         component: () => import( '../views/NoteBook/NoteBook.vue'),
     
       },
-       
+      {
+        name: 'data',
+        path: '/data',
+        component: () => import( '../views/data/index.vue'),
     
+      },
+      {
+        name: 'issues',
+        path: '/issues',
+        component: () => import( '../views/issues/index.vue'),
+      },
+      
 ]
 
 const router = createRouter({

@@ -2,13 +2,32 @@
   <div>
     <view></view>
     <el-card :key="rowData.id" v-for="rowData in tableData">
-      <p>{{ rowData.title }}</p>
-      <p>{{rowData.state}}</p>
-      <p>{{rowData.created_at}}</p>
-      <p>{{rowData.updated_at}}</p>
-      <p>{{rowData.user.login}}</p>
+      <!-- <p>{{ rowData.title }}</p> -->
+
+      <!-- <p>{{ rowData.user.login }}</p> -->
+      <div>{{ rowData.title }}</div>
+
+      <div class="time">
+        <!-- <div>{{ DateUtil.format(rowData.created_at,"yyyy-MM-dd hh:mm:ss")  }}</div> -->
+        <!-- <div>{{ rowData.created_at .format("yyyy-MM-dd hh:mm:ss") }}</div> -->
+        <!-- <div>{{ rowData.updated_at }}</div> -->
+        <div class="username">{{ rowData.user.login }}</div>
+        创建于
+        <DateShow class="created_at" :date="rowData.created_at"></DateShow>
+        更新于
+        <DateShow class="updated_at" :date="rowData.updated_at"></DateShow>
+        <!-- <div class="elliptical-background">{{ rowData.state }}</div> -->
+        <div class="open-bg">{{ rowData.state }}</div>
+      </div>
+      <!-- <p>{{ rowData.created_at }}</p>
+      <p>{{ rowData.updated_at }}</p> -->
       <!--            @click="onIssueClicked(scope.$index, scope.row)"-->
-      <el-button type="text" icon="el-icon-edit" @click="onIssueClickedByRow(rowData)">链接</el-button>
+      <el-button
+        type="text"
+        icon="el-icon-edit"
+        @click="onIssueClickedByRow(rowData)"
+        >链接</el-button
+      >
     </el-card>
 
     <!--        <div>-->
@@ -95,18 +114,19 @@
     <!--    </el-table>-->
     <!--    </keep-alive>-->
     <!--    https://blog.csdn.net/woshisangsang/article/details/113539967-->
-  用户名<el-input v-model="username"></el-input>
-  仓库名字  <el-input v-model="repo"></el-input>
+    用户名<el-input v-model="username"></el-input> 仓库名字
+    <el-input v-model="repo"></el-input>
 
-<!-- <el-row>
+    <!-- <el-row>
     <el-input v-model="username">用户名</el-input>
 </el-row>
 <el-row>
     仓库名字  <el-input v-model="repo"></el-input>
 </el-row> -->
-      
-        
-        <el-button type="primary" @click="makeUrl" class="submit">makeUrl</el-button>
+
+    <el-button type="primary" @click="makeUrl" class="submit"
+      >makeUrl</el-button
+    >
     <div class="white">网址</div>
     <el-input v-model="netUrl"></el-input>
 
@@ -117,17 +137,23 @@
       </el-col>
     </el-row> -->
 
-        <div class="center btn-margin">
- <el-button type="primary" @click="parseApi" class="submitBtn">解析</el-button>
-        <!-- <el-button type="primary" @click="reqIssNum" class="submitBtn">reqIssNum</el-button> -->
-        <el-button type="primary" @click="getIssues" class="submitBtn">获取issues</el-button>
-        <!-- <el-button type="primary" @click="getHistory" class="submitBtn">历史记录</el-button> -->
-          </div>
- 
+    <div class="center btn-margin">
+      <el-button type="primary" @click="parseApi" class="submitBtn"
+        >解析</el-button
+      >
+      <!-- <el-button type="primary" @click="reqIssNum" class="submitBtn">reqIssNum</el-button> -->
+      <el-button type="primary" @click="getIssues" class="submitBtn"
+        >获取issues</el-button
+      >
+      <!-- <el-button type="primary" @click="getHistory" class="submitBtn">历史记录</el-button> -->
+    </div>
 
     <el-card>
-      <p>total_issues : {{total_issues}}</p>
-      <p>api : {{api}}</p>
+      <!-- <p>total_issues : {{ total_issues }}</p>
+      <p>api : {{ api }}</p> -->
+
+      <div>total_issues : {{ total_issues }}</div>
+      <div>api : {{ api }}</div>
       <!--    获取issues 是/获取issues-->
 
       <div>历史记录</div>
@@ -154,10 +180,10 @@
       <!--      {{getReposStatus}}-->
       <!--    </div>-->
 
-      <div>page</div>
-      <el-input v-model="reposQuery.page"></el-input>
+      <!-- <div>page</div>
+      <el-input v-model="reposQuery.page"></el-input> -->
 
-      <el-pagination
+      <!-- <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -165,16 +191,27 @@
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
         :total="400"
+      ></el-pagination> -->
+      <div>queryWord</div>
+      <el-input class="center" v-model="reposQuery.queryWord"></el-input>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[100, 200, 300, 400]"
+        :page-size="100"
+        layout=" prev, pager, next, jumper"
+        :total="400"
       ></el-pagination>
 
-      <div>queryWord</div>
-        <div class="center">
-      <el-input v-model="reposQuery.queryWord"></el-input>
+      <div class="center">
+        <!-- <el-input v-model="reposQuery.queryWord"></el-input> -->
 
-
-      <el-button  type="primary" @click="getRepos" class="submitBtn btn-margin">浏览仓库</el-button>
-        </div>
-      <div>{{getReposStatus}}</div>
+        <el-button type="primary" @click="getRepos" class="submitBtn btn-margin"
+          >浏览仓库</el-button
+        >
+      </div>
+      <div>{{ getReposStatus }}</div>
     </el-card>
     <!--    <div class="white" :key="" v-for="repo  in git_page_repos">-->
     <div class="white" :key="repo.id" v-for="repo in git_page_repos">
@@ -186,19 +223,47 @@
         <!--        <p   @click="toRepo()"> {{repo.repoName}}</p>-->
         <!--        <el-button @click="toRepo()" type="text" class="button"> {{repo.repoName}}</el-button>-->
         <!--                <el-button @click="toRepo(repo.repoName)" type="text" class="button"> {{repo.repoName}}</el-button>-->
-        <el-button @click="toRepo(repo.repo_name)" type="text" class="button">{{repo.repo_name}}</el-button>
+     
+        <!-- <el-button @click="toRepo(repo.repo_name)" type="text" class="button">{{
+          repo.repo_name
+        }}</el-button> -->
 
-        <p>{{repo.sketch}}</p>
+          <el-button @click="toIssues(repo.repo_name)" type="text" class="button">{{
+          repo.repo_name
+        }}</el-button>
 
-        <p>star {{repo.star}}</p>
-        <p>主题 {{repo.topics}}</p>
+        <!-- <p>{{ repo.sketch }}</p>
+
+        <p>star {{ repo.star }}</p>
+        <p>主题 {{ repo.topics }}</p> -->
+
+        <div>{{ repo.sketch }}</div>
+
+        <div>star {{ repo.star }}</div>
+        <div>主题 {{ repo.topics }}</div>
       </el-card>
     </div>
- <el-input type="textarea" :rows="2" placeholder="请输入标题" v-model="postTitle"></el-input>
-    <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="postIssue"></el-input>
-    <el-button type="primary" @click="submitIssue" class="submit">提交issue</el-button>
-    <el-button type="primary" @click="toLogin" class="submit">toLogin</el-button>
-  <el-button type="primary" @click="toComic" class="submit">toComic</el-button>
+    <el-input
+      type="textarea"
+      :rows="2"
+      placeholder="请输入标题"
+      v-model="postTitle"
+    ></el-input>
+    <el-input
+      type="textarea"
+      :rows="2"
+      placeholder="请输入内容"
+      v-model="postIssue"
+    ></el-input>
+    <el-button type="primary" @click="submitIssue" class="submit"
+      >提交issue</el-button
+    >
+    <el-button type="primary" @click="toLogin" class="submit"
+      >toLogin</el-button
+    >
+    <el-button type="primary" @click="toComic" class="submit"
+      >toComic</el-button
+    >
   </div>
 </template>
 
@@ -206,44 +271,50 @@
 import method from "../util/method";
 import strUtil from "../util/strUtil";
 import Global from "../util/global";
+import DateUtil from "../util/DateUtil";
 import {
   codeError,
   apiMark,
   QuickVue,
   GITHUB_URL,
-  dataGitHub
+  dataGitHub,
 } from "../common/common";
 import util from "../util/util";
+import DateShow from "../components/date-show";
+// src\components
 import axios from "axios";
 // import {codeError} from "../common/common";
 import { ElMessage } from "element-plus";
 import $store from "../store/index";
+// date-show
 export default {
+  components: {
+    DateShow,
+  },
   name: "GithubHome",
   methods: {
-    toLogin(){
-this.$router.push('Login');
+    toLogin() {
+      this.$router.push("Login");
     },
-    toComic(){
-this.$router.push('Comic');
+    toComic() {
+      this.$router.push("Comic");
     },
-    submitIssue(){
-
-     this. auth=$store.state.auth
-// this.questions = $store.state.questions;
-let data={
-    owner:this.username,
-      repo: this.repo,
-      title: this.postTitle,
-      //  body: this.issuePost.body
-         body: this.postIssue,
-         auth:this.auth
-}
-console.log("data");
-console.log(data);
- method
+    submitIssue() {
+      this.auth = $store.state.auth;
+      // this.questions = $store.state.questions;
+      let data = {
+        owner: this.username,
+        repo: this.repo,
+        title: this.postTitle,
+        //  body: this.issuePost.body
+        body: this.postIssue,
+        auth: this.auth,
+      };
+      console.log("data");
+      console.log(data);
+      method
         .postV3("/issue/CreateIssue", data)
-        .then(response => {
+        .then((response) => {
           if (response.data.port === codeError) {
             this.$message.error("账号或者密码有误");
           } else {
@@ -251,10 +322,10 @@ console.log(data);
             // this.tableData=response.data.data;
             let res = response.data.data;
             console.log("res");
-             console.log(res);
+            console.log(res);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -265,17 +336,31 @@ console.log(data);
       console.log(`当前页: ${val}`);
       this.reposQuery.page = val;
       this.getRepos();
+      this.currentPage = val;
     },
 
     toRepo(repoName) {
+      this.$router.push("Login");
       // l="https://github.com/moshowgame/SpringBootCodeGenerator/releases/tag/2022.02.09"
       let urlGetRepo = strUtil.urlAdd(GITHUB_URL, repoName);
+      // repoName是包括了 username 和仓库名字
       console.log("urlGetRepo");
       console.log(urlGetRepo);
 
       this.netUrl = urlGetRepo;
       this.parseApi();
       this.getIssuesDo();
+    },
+    toIssues(repoName) {
+      // l="https://github.com/moshowgame/SpringBootCodeGenerator/releases/tag/2022.02.09"
+      // let urlGetRepo = strUtil.urlAdd(GITHUB_URL, repoName);
+      // console.log("urlGetRepo");
+      // console.log(urlGetRepo);
+       this.$router.push({ path: "issues", query: { repoName: repoName } });
+
+      // this.netUrl = urlGetRepo;
+      // this.parseApi();
+      // this.getIssuesDo();
     },
     getIssuesDo() {
       if (this.api === null) {
@@ -294,17 +379,17 @@ console.log(data);
         return;
       }
       var data = {
-        url: strUtil.urlAdd(this.api, "issues")
+        url: strUtil.urlAdd(this.api, "issues"),
       };
       const jsonDic = {
         headers: {
-          "Content-Type": "application/json;charset=utf-8" // 头部信息
-        }
+          "Content-Type": "application/json;charset=utf-8", // 头部信息
+        },
       };
       // Global
       axios
         .post(Global.axiosUrl + "issue/issues", data, jsonDic)
-        .then(response => {
+        .then((response) => {
           if (response.data.port === codeError) {
             // this.$message.error('账号或者密码有误');
             ElMessage.success("账号或者密码有误");
@@ -319,7 +404,7 @@ console.log(data);
             console.log(this.tableData);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
 
@@ -400,7 +485,7 @@ console.log(data);
     getHistory() {
       method
         .postV3("/history/list", null)
-        .then(response => {
+        .then((response) => {
           if (response.data.port === codeError) {
             this.$message.error("账号或者密码有误");
           } else {
@@ -409,7 +494,7 @@ console.log(data);
             this.history = response.data.data;
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
       // method.post("/history/list", null, this)
@@ -439,7 +524,7 @@ console.log(data);
       method
         .postV3("gitPageRepo/getRepos", this.reposQuery)
         // method.post("gitPageRepo/getRepos", this.reposQuery, this)
-        .then(response => {
+        .then((response) => {
           if (response.data.code === codeError) {
             // response.data.msg;
             util.getMsg(this).error("getRepos 失败" + response.data.msg);
@@ -454,7 +539,7 @@ console.log(data);
 
             // console.log("this.issues")
             // console.log(this.issues)
-            this.git_page_repos.forEach(o => {
+            this.git_page_repos.forEach((o) => {
               if (o.repoName) {
                 o.repo_name = o.repoName;
               }
@@ -463,7 +548,7 @@ console.log(data);
             console.log(this.git_page_repos);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -484,7 +569,7 @@ console.log(data);
       // strUtil.urlAdd(Vue._api,)
       // https://segmentfault.com/a/1190000016653561
       var that = this;
-      this.$axios.get(apiUrl).then(res => {
+      this.$axios.get(apiUrl).then((res) => {
         //获取你需要用到的数据
         console.log("res");
         console.log(res);
@@ -600,9 +685,10 @@ console.log(data);
       // this.$cookies.set(apiMark,api);
     },
 
-    makeUrl(){
-      this.netUrl=`https://github.com/${this.username}/${this.repo}`
-  let  api = "https://api.github.com/repos/" + this.username + "/" + this.repo;
+    makeUrl() {
+      this.netUrl = `https://github.com/${this.username}/${this.repo}`;
+      let api =
+        "https://api.github.com/repos/" + this.username + "/" + this.repo;
 
       this.api = api;
     },
@@ -680,7 +766,7 @@ console.log(data);
       //     this.form = row;
       //     this.editVisible = true;
       // }
-    }
+    },
 
     // onIssueClicked(evt){
     //     // 获取点击的 对象 a vue
@@ -715,11 +801,11 @@ console.log(data);
       sketch: "sketch",
       topics: "topics",
       star: "star",
-      queryWord: "query_word"
+      queryWord: "query_word",
     };
     let reposQuery = {
       page: 1,
-      queryWord: null
+      queryWord: null,
     };
     let git_page_repos = [
       // git_page_repo,
@@ -730,8 +816,8 @@ console.log(data);
         topics: '["mac","tool"]',
         star: "5.1k",
         queryWord: "tool",
-        page: null
-      }
+        page: null,
+      },
     ];
     let issue = {
       assignees: [],
@@ -756,8 +842,7 @@ console.log(data);
         "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/timeline",
       comments: 0,
       closed_at: null,
-      url:
-        "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121",
+      url: "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121",
       labels: [],
       milestone: null,
       events_url:
@@ -772,10 +857,9 @@ console.log(data);
         rocket: 0,
         hooray: 0,
         eyes: 0,
-        url:
-          "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/reactions",
+        url: "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/reactions",
         laugh: 0,
-        heart: 0
+        heart: 0,
       },
       assignee: null,
       user: {
@@ -800,65 +884,69 @@ console.log(data);
         id: 2443665,
         gravatar_id: "",
         node_id: "MDQ6VXNlcjI0NDM2NjU=",
-        organizations_url: "https://api.github.com/users/xuhao199224/orgs"
+        organizations_url: "https://api.github.com/users/xuhao199224/orgs",
       },
-      node_id: "I_kwDOCMCWTc48PKQz"
+      node_id: "I_kwDOCMCWTc48PKQz",
     };
     var issues = [
-      {
-        title: "111",
-        url: "url",
-        issueId: 111
-      },
-      issue
+      // {
+      //   title: "111",
+      //   url: "url",
+      //   issueId: 111,
+      //   user:{
+      //     login:"dada"
+      //   }
+      // },
+      issue,
     ];
     var originData = [
       {
         date: "2016-05-02",
         name: "王小虎",
-        address: "上海市普陀区金沙江路 1518 弄"
+        address: "上海市普陀区金沙江路 1518 弄",
       },
       {
         date: "2016-05-04",
         name: "王小虎",
-        address: "上海市普陀区金沙江路 1517 弄"
+        address: "上海市普陀区金沙江路 1517 弄",
       },
       {
         date: "2016-05-01",
         name: "王小虎",
-        address: "上海市普陀区金沙江路 1519 弄"
+        address: "上海市普陀区金沙江路 1519 弄",
       },
       {
         date: "2016-05-03",
         name: "王小虎",
-        address: "上海市普陀区金沙江路 1516 弄"
-      }
+        address: "上海市普陀区金沙江路 1516 弄",
+      },
     ];
 
     return {
-    auth:null,
+      auth: null,
       repoInfoGet: null,
       total_issues: null,
       api: null,
       // netUrl:null,
       // netUrl: "https://github.com/moshowgame/SpringBootCodeGenerator",
-       netUrl: "https://github.com/starplatinum3/starplatinum",
+      netUrl: "https://github.com/starplatinum3/starplatinum",
       repoInfo: {},
-      // tableData: issues,
-      tableData: null,
+      tableData: issues,
+      // tableData: null,
       canHit: true,
       history: null,
       git_page_repo: git_page_repo,
-      // git_page_repos: git_page_repos,
-      git_page_repos: null,
+      git_page_repos: git_page_repos,
+      // git_page_repos: null,
       reposQuery: reposQuery,
       getReposStatus: "请输入查询",
-      postIssue:null,
-      username:null,
-      repo:null,
-        postTitle:null,
+      postIssue: null,
+      username: null,
+      repo: null,
+      postTitle: null,
+      currentPage: 1,
     };
-  }
+  },
 };
 </script>
 
@@ -867,19 +955,68 @@ console.log(data);
 .white {
   color: white;
 }
-.center{
-      text-align: center;
+.center {
+  text-align: center;
 }
-.get-issue-btn-row{
-    margin-top: 10px;
-    margin-bottom: 10px;
+.get-issue-btn-row {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.btn-margin{
-     margin-top: 10px;
-    margin-bottom: 10px;
+.btn-margin {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 /* .get-issue-btn-row{
     margin-top: 10px;
     margin-bottom: 10px;
 } */
+.time {
+  display: flex;
+  flex-direction: row;
+  font-size: 50%;
+  margin-top: 10px;
+}
+
+.created_at {
+  margin-right: 10px;
+  margin-left: 5px;
+}
+.updated_at {
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+.elliptical-background {
+  width: 200px;
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  font-size: 20px;
+  border: 1px red solid;
+  border-radius: 50px;
+  background-color: bisque;
+}
+.open-bg {
+  /* width: 200px;
+  height: 200px; */
+  /* width: 100px;
+  height: 50px; */
+  width: 80px;
+  height: 30px;
+  /* line-height: 200px; */
+  /* line-height: 100px; */
+  /* line-height: 50px; */
+  line-height: 30px;
+  text-align: center;
+  /* font-size: 20px; */
+  font-size: 5px;
+  border: 1px greenyellow solid;
+  border-radius: 50px;
+  background-color: rgb(213, 255, 196);
+}
+.username {
+  /* 加粗 */
+  font-weight: bold;
+  margin-right: 5px;
+}
 </style>

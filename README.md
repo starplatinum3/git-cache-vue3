@@ -113,3 +113,6 @@ import scss
 
 
 cnpm install bootstrap bootstrap-vue-3  -S
+
+Failed to resolve loader: less-loader
+You may need to install it.

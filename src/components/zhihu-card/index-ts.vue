@@ -1,16 +1,4 @@
 <template>
-
-    <ZhihuCard></ZhihuCard>
-<!--    https://youzan.github.io/vant/#/zh-CN/tabbar-->
-
-    <van-tabbar v-model="active">
-        <van-tabbar-item icon="home-o">标签</van-tabbar-item>
-        <van-tabbar-item icon="search">标签</van-tabbar-item>
-        <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
-        <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
-    </van-tabbar>
-
-
     <div class="screen">
 
         <div class="content">
@@ -46,30 +34,9 @@
 
     </div>
 </template>
-<!--setup-->
-<!--ts 不行啊-->
-<script>
 
-// <script setup lang="ts">
-//   import zhihu-card
-//        import ZhihuCard from '@/components/zhihu-card/index.vue'
+<script  setup lang="ts">
 
-import { onMounted, ref } from "vue";
-// import { Sex, fetchUserInfo, updateUserInfo } from "../services";
-const name = ref("");
-// import ConnectionsList from '@/views/connections/ConnectionsList.vue'
-import ZhihuCard from '@/components/zhihu-card/index.vue'
-// const sex = ref(Sex.male);
-
-onMounted(() => {
-
-});
-
-
-// 作者：DylanlZhao
-// 链接：https://juejin.cn/post/7001897686567747598
-//     来源：稀土掘金
-// 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 </script>
 
 <!--其他地方定义的 css 不引入的话 应该不行的吧-->

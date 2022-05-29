@@ -8,6 +8,12 @@ import router from './router'
 
 import installElementPlus from './plugins/element'
 
+// import { createApp } from 'vue';
+import { Button } from 'vant';
+// import { Tabbar } from 'vant';
+
+// const app = createApp();
+
 const app = createApp(App)
 installElementPlus(app)
 // app.mount('#app')
@@ -100,13 +106,15 @@ import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
 // const app = createApp(App)
 // app.use(BootstrapVue3)
-
+import { Tabbar, TabbarItem } from 'vant';
 Vue.use(router).use(ElementPlus).// use(ImageViewer).
 // use(VueCookies).
 // use(ElementUI).
 // use(VueResource).
 use(BootstrapVue3).
-use(VMdPreview).mount('#app')
+use(VMdPreview).
+    use(Button).use(Tabbar).use(TabbarItem).
+mount('#app')
 
 // createApp(App).use(router).
 // mount('#app')

@@ -16,6 +16,7 @@
     "echarts": "^4.0.4",
     "element-plus": "^1.0.2-beta.28",
     "element-ui": "^2.3.6",
+    "vant": "^3.4.6",
     "vue": "^3.2.13",
     "vue-cookies": "^1.7.2",
     "vue-markdown": "^2.2.4",
@@ -65,4 +66,6 @@
     "not dead",
     "not ie 11"
   ]
+
+
 }

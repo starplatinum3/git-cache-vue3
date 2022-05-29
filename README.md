@@ -7,12 +7,19 @@ http://starplatinumora.top:8086/ 在线预览 要点击 toGithub 进入
 项目文档 https://acc15t4bm5.feishu.cn/docs/doccnLnginRRAuyalHbuiCevYhf 
 后端 https://gitee.com/starplatinum111/git-cache-egg-pub
 
+文档：git issue 项目文档.note
+链接：http://note.youdao.com/noteshare?id=2a3df3e0276cbe03d3ccc4a2ddd974d7&sub=299C2C8B53C148EDABA36B7E9A4C94DA
+
+
 可在此查看图片 有道云笔记 (youdao.com)
 https://note.youdao.com/ynoteshare/index.html?id=96502872592c167e269ab8f8d998dfe3&type=note&_time=1646188803660
 
 解决了不知道如何用cheario在某个节点下面搜索子节点的问题
 
+cnpm i vant --save
 
+cnpm install  -save--dev typescript
+https://www.fakin.cn/2778.html
 
 ## Project setup
 ```

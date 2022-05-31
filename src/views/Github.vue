@@ -223,14 +223,17 @@
         <!--        <p   @click="toRepo()"> {{repo.repoName}}</p>-->
         <!--        <el-button @click="toRepo()" type="text" class="button"> {{repo.repoName}}</el-button>-->
         <!--                <el-button @click="toRepo(repo.repoName)" type="text" class="button"> {{repo.repoName}}</el-button>-->
-     
+
         <!-- <el-button @click="toRepo(repo.repo_name)" type="text" class="button">{{
           repo.repo_name
         }}</el-button> -->
 
-          <el-button @click="toIssues(repo.repo_name)" type="text" class="button">{{
-          repo.repo_name
-        }}</el-button>
+        <el-button
+          @click="toIssues(repo.repo_name)"
+          type="text"
+          class="button"
+          >{{ repo.repo_name }}</el-button
+        >
 
         <!-- <p>{{ repo.sketch }}</p>
 
@@ -264,6 +267,11 @@
     <el-button type="primary" @click="toComic" class="submit"
       >toComic</el-button
     >
+
+    <div class="upload-btn">上传图片</div>
+    <!-- <input @onchange="onchange" type="file" id="fileinput" /> -->
+    <input @change="onchange" type="file" id="fileinput" />
+    <img :src="imgSrc" class="img-container"/>
   </div>
 </template>
 
@@ -280,6 +288,7 @@ import {
   dataGitHub,
 } from "../common/common";
 import util from "../util/util";
+import FileUtil from "../util/FileUtil";
 import DateShow from "../components/date-show";
 // src\components
 import axios from "axios";
@@ -293,9 +302,65 @@ export default {
   },
   name: "GithubHome",
   methods: {
+    onchange(e) {
+      var $event = e || window.event;
+      var files = $event.target.files;
+      console.log("files");
+      console.log(files);
+      var fr = new FileReader();
+      let that=this
+      fr.onload = function (e) {
+        // console.log( fr.result );
+        let sourceImgUrl = FileUtil.getFileBlob(fr.result);
+
+        // sourceImgUrl = getFileBlob(fr.result);
+        // this.upload(sourceImgUrl);
+        that.upload(sourceImgUrl);
+        // input.value = "";
+      };
+      fr.readAsDataURL(files[0]);
+    },
     toLogin() {
       this.$router.push("Login");
     },
+
+    upload(data) {
+      /*
+  FormData()
+	创建一个新的 FormData 对象。
+	FormData.append()
+	向 FormData 中添加新的属性值，FormData 对应的属性值存在也不会覆盖原值，而是新增一个值，如果属性不存在则新增一项属性值。
+  formData.append(name, value);
+	formData.append(name, value, filename);
+
+	name
+	value中包含的数据对应的表单名称。
+	value
+	表单的值。可以是USVString 或 Blob (包括子类型，如 File)。
+	filename 可选
+	传给服务器的文件名称 (一个 USVString), 当一个 Blob 或 File 被作为第二个参数的时候， Blob 对象的默认文件名是 "blob"。 File 对象的默认文件名是该文件的名称。
+  * */
+
+      var fmData = new FormData();
+      fmData.append("avatar", data, "avatar.png");
+      // Global.axiosUrl + "issue/issues", data, jsonDic
+      axios.post(`${Global.axiosUrl}uploadImg`, fmData).then((res) => {
+        console.log(res);
+        // var src = `http://localhost:7001${res.data.data[0]}`;
+        var src = `${Global.axiosUrl}${res.data.data[0]}`;
+        // var src = `http://localhost:7002${res.data.data[0]}`;
+        console.log("src");
+        console.log(src);
+        this.imgSrc=src
+        // var img = document.createElement("img");
+        // img.src = src;
+        // if (document.querySelector("img")) {
+        //   document.querySelector("img").remove();
+        // }
+        // document.body.appendChild(img);
+      });
+    },
+
     toComic() {
       this.$router.push("Comic");
     },
@@ -356,7 +421,7 @@ export default {
       // let urlGetRepo = strUtil.urlAdd(GITHUB_URL, repoName);
       // console.log("urlGetRepo");
       // console.log(urlGetRepo);
-       this.$router.push({ path: "issues", query: { repoName: repoName } });
+      this.$router.push({ path: "issues", query: { repoName: repoName } });
 
       // this.netUrl = urlGetRepo;
       // this.parseApi();
@@ -433,6 +498,7 @@ export default {
     getIssues() {
       if (this.canHit) {
         this.getIssuesDo();
+        // 防抖
         this.canHit = false;
         var auth_timetimer = setInterval(() => {
           // this.timer--;
@@ -923,6 +989,7 @@ export default {
     ];
 
     return {
+      imgSrc:"http://starplatinumora.top/images/1581927163111766.jpg",
       auth: null,
       repoInfoGet: null,
       total_issues: null,
@@ -1013,6 +1080,14 @@ export default {
   border: 1px greenyellow solid;
   border-radius: 50px;
   background-color: rgb(213, 255, 196);
+}
+
+.img-container{
+  /* width: 20px;
+  height: 20px; */
+
+   width: 100px;
+  height: 100px;
 }
 .username {
   /* 加粗 */

@@ -32,7 +32,14 @@ export default {
       this.dateMe = new Date(this.dateMe);
     }
     // let dateShow=  DateUtil.format(this.date,"yyyy-MM-dd hh:mm:ss")
-    let dateShow = DateUtil.format(this.dateMe, "yyyy-MM-dd hh:mm:ss");
+    // let dateShow = DateUtil.format(this.dateMe, "yyyy-MM-dd hh:mm:ss");
+    let dateShow 
+    if(this.dateMe==null){
+      dateShow=null
+        //  let dateShow = DateUtil.format(this.dateMe, "yyyy-MM-dd hh:mm:ss");
+    }else{
+      dateShow = DateUtil.format(this.dateMe, "yyyy-MM-dd hh:mm:ss");
+    }
     // DateUtil.format("")
     console.log("dateShow");
     console.log(dateShow);

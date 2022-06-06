@@ -9,9 +9,9 @@ import { reactive, toRefs } from "vue";
 // import Issue from '../cop/Issue.vue';
 // import Issue from "../components/issue";
 import Issue from "../../components/issue";
-import { useRoute, useRouter } from 'vue-router'
-import strUtil from '@/util/strUtil';
-import axios from 'axios';
+import { useRoute, useRouter } from "vue-router";
+import strUtil from "@/util/strUtil";
+import axios from "axios";
 // strUtil
 // axios.reactive
 
@@ -35,15 +35,17 @@ import util from "../../util/util";
 import { ElMessage } from "element-plus";
 // import $store from "../store/index";
 
-
 export default {
   components: { Issue },
   setup() {
-
-       const route = useRoute()
-    const router = useRouter()
-
-  const getIssuesDo = (api) => {
+ 
+   
+    const route = useRoute();
+    const router = useRouter();
+  //  let repoName = route.query.repoName;
+  //   console.log("repoName");
+  //   console.log(repoName);
+    const getIssuesDo = (api) => {
       if (api === null) {
         ElMessage.error("api 没有");
         return;
@@ -65,7 +67,7 @@ export default {
           } else {
             // this.issues=response.data.data;
             // this.tableData = response.data.data;
-state.tableData = response.data.data;
+            state.tableData = response.data.data;
             console.log("this.tableData");
             console.log(this.tableData);
           }
@@ -75,7 +77,7 @@ state.tableData = response.data.data;
         });
     };
 
-    let repoName =route.query.repoName;
+    let repoName = route.query.repoName;
     // let repoName = this.$route.query.repoName;
 
     //   let username = this.$route.query.username;
@@ -85,6 +87,7 @@ state.tableData = response.data.data;
     // this.netUrl = urlGetRepo;
     // this.parseApi();
     // this.getIssuesDo(api);
+    localStorage.setItem(apiMark, api);
     getIssuesDo(api);
     // vue  input
     const state = reactive({
@@ -93,7 +96,7 @@ state.tableData = response.data.data;
         inputVal: "好好学习，天天向上",
       },
       showingBottom: true,
-      tableData:null
+      tableData: null,
     });
     const add = () => {
       console.log("state.data.inputVal");
@@ -108,7 +111,6 @@ state.tableData = response.data.data;
       state.showingBottom = false;
     };
 
-  
     return {
       ...toRefs(state),
       add,

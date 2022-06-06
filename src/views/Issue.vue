@@ -560,6 +560,10 @@ export default {
     // this.makeComicLst()
     // let api= this.$cookies.get(apiMark);
     let api = localStorage.getItem(apiMark);
+    // repoName
+   let repoName= this.$route.query.repoName;
+   console.log("repoName");
+     console.log(repoName);
     console.log("api");
     console.log(api);
     this.api = api;

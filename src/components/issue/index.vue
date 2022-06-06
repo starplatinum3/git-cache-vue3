@@ -78,6 +78,8 @@ export default {
    
       sessionStorage.setItem(dataGitHub, JSON.stringify(this.$data));
 
+// localStorage
+// localStorage.setItem(apiMark, api);
       this.$router.push({ path: "Issue", query: { issueId: row.number } });
    
     },

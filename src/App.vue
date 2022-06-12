@@ -14,6 +14,7 @@
     <el-button type="primary" @click="toWelcome">toWelcome</el-button>
      <el-button type="primary" @click="toNoteBook">toNoteBook</el-button>
      <el-button type="primary" @click="toZhihu">toZhihu</el-button>
+       <el-button type="primary" @click="toImgs">toImgs</el-button>
 </template>
 
 <script>
@@ -33,6 +34,10 @@
                 await router.push("Github")
 
             };
+            const toImgs = async () => {
+                await router.push("imgs")
+
+            };
             const toWelcome = async () => {
                 await router.push("Welcome")
 
@@ -49,7 +54,8 @@
             return {
                 toGithub,
                 toWelcome,
-                toZhihu
+                toZhihu,
+                toImgs
             };
         },
     }

@@ -129,6 +129,11 @@ const routes = [
         path: '/zhihu',
         component: () => import( '../views/zhihu/index.vue'),
       },
+      {
+        name: 'Imgs',
+        path: '/Imgs',
+        component: () => import( '../views/Imgs.vue'),
+      },
       
 ]
 

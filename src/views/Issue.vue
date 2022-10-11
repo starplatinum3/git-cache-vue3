@@ -556,7 +556,7 @@ export default {
   },
   created() {
     // https://blog.csdn.net/qq_25905159/article/details/107737266
-    console.log("created");
+    console.log("created issue");
     // this.makeComicLst()
     // let api= this.$cookies.get(apiMark);
     let api = localStorage.getItem(apiMark);
@@ -572,7 +572,9 @@ export default {
     // this.$router query 获取
     // let age = this.$route.query.age; //问号后面参数会被封装进 this.$route.query;
     let issueId = this.$route.query.issueId;
-
+    let urlGetRepo = this.$route.query.urlGetRepo;
+    console.log("urlGetRepo");
+    console.log(urlGetRepo);
     console.log("issueId");
     console.log(issueId);
     //

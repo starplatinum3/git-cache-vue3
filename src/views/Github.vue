@@ -28,6 +28,8 @@
         @click="onIssueClickedByRow(rowData)"
         >链接</el-button
       >
+      html_url
+      {{ rowData.html_url }}
     </el-card>
 
     <!--        <div>-->
@@ -127,9 +129,14 @@
     <el-button type="primary" @click="makeUrl" class="submit"
       >makeUrl</el-button
     >
-    <div class="white">网址</div>
-    <el-input v-model="netUrl"></el-input>
+    <!-- <div class="white">网址</div> -->
+    <div class="">网址</div>
+    <el-input v-model="netUrl" @change="onNetUrlChange"></el-input>
+    <div class="">issue id</div>
+    <el-input v-model="issueId"></el-input>
 
+    <!-- @change="onNetUrlChange(index, indexItem)" -->
+    <!-- el-input change  -->
     <!-- <el-row>
       <el-col :span="24">
       
@@ -145,8 +152,22 @@
       <el-button type="primary" @click="getIssues" class="submitBtn"
         >获取issues</el-button
       >
+      <el-button type="primary" @click="lookOneIssue" class="submitBtn"
+        >lookOneIssue</el-button
+      >
       <!-- <el-button type="primary" @click="getHistory" class="submitBtn">历史记录</el-button> -->
     </div>
+
+    <!-- getIssuesPage -->
+    <el-pagination
+      @size-change="handleSizeChangeGetIssues"
+      @current-change="handleCurrentChangeGetIssues"
+      :current-page="currentPageIssues"
+      :page-sizes="[100, 200, 300, 400]"
+      :page-size="100"
+      layout=" prev, pager, next, jumper"
+      :total="400"
+    ></el-pagination>
 
     <el-card>
       <!-- <p>total_issues : {{ total_issues }}</p>
@@ -271,7 +292,11 @@
     <div class="upload-btn">上传图片</div>
     <!-- <input @onchange="onchange" type="file" id="fileinput" /> -->
     <input @change="onchange" type="file" id="fileinput" />
-    <img :src="imgSrc" class="img-container"/>
+    <img :src="imgSrc" class="img-container" />
+
+    <el-button type="primary" @click="getDashboard" class="submit"
+      >getDashboard</el-button
+    >
   </div>
 </template>
 
@@ -302,13 +327,65 @@ export default {
   },
   name: "GithubHome",
   methods: {
+    // onNetUrlChange(index, indexItem, value){
+
+    //   console.log("index");
+    //   console.log(index);
+    //   console.log("indexItem");
+    //   console.log(indexItem);
+    // },
+
+    onNetUrlChange(value) {
+      console.log("value");
+      console.log(value);
+      let netUrl = value;
+
+      if (strUtil.checkUrl(netUrl)) {
+        localStorage.setItem("netUrl", netUrl);
+      }
+      this.parseApi();
+      //  console.log("index");
+      //  console.log(index);
+      //  console.log("indexItem");
+      //  console.log(indexItem);
+    },
+
+    lookOneIssue() {
+      let urlGetRepo = strUtil.urlAdd(GITHUB_URL, repoName);
+      // repoName是包括了 username 和仓库名字
+      console.log("urlGetRepo");
+      console.log(urlGetRepo);
+
+      this.$router.push({
+        path: "Issue",
+        query: {
+          repoName: "repoName",
+          urlGetRepo: urlGetRepo,
+        },
+      });
+    },
+    getDashboard() {
+      // 'http://81.68.204.179:8080/api'
+      axios
+        .post("http://81.68.204.179:8080/api/permit/user/dashboard", {})
+        .then((resp) => {
+          console.log(resp);
+
+          //  this.  noticeList=resp.data.data.content
+          if (resp && resp.data.code === 200) {
+            // _this.menus = resp.data.result
+            this.dashboardData = resp.data.data;
+            console.log("ok");
+          }
+        });
+    },
     onchange(e) {
       var $event = e || window.event;
       var files = $event.target.files;
       console.log("files");
       console.log(files);
       var fr = new FileReader();
-      let that=this
+      let that = this;
       fr.onload = function (e) {
         // console.log( fr.result );
         let sourceImgUrl = FileUtil.getFileBlob(fr.result);
@@ -351,7 +428,7 @@ export default {
         // var src = `http://localhost:7002${res.data.data[0]}`;
         console.log("src");
         console.log(src);
-        this.imgSrc=src
+        this.imgSrc = src;
         // var img = document.createElement("img");
         // img.src = src;
         // if (document.querySelector("img")) {
@@ -404,6 +481,22 @@ export default {
       this.currentPage = val;
     },
 
+    handleSizeChangeGetIssues(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChangeGetIssues(val) {
+      console.log(`当前页: ${val}`);
+      // this.reposQuery.page = val;
+      // this.getRepos();
+      this.currentPageIssues = val;
+      let pagePrams = {
+        page: val,
+        per_page: 10,
+      };
+      this.parseApi();
+      this.getIssues(pagePrams);
+    },
+
     toRepo(repoName) {
       this.$router.push("Login");
       // l="https://github.com/moshowgame/SpringBootCodeGenerator/releases/tag/2022.02.09"
@@ -427,7 +520,7 @@ export default {
       // this.parseApi();
       // this.getIssuesDo();
     },
-    getIssuesDo() {
+    getIssuesDo(pagePrams) {
       if (this.api === null) {
         // this.$mess
         // vue
@@ -443,9 +536,19 @@ export default {
         ElMessage.error("api 没有");
         return;
       }
+      if (!pagePrams) {
+        pagePrams = {
+          page: 1,
+          per_page: 10,
+        };
+      }
       var data = {
         url: strUtil.urlAdd(this.api, "issues"),
+        per_page: pagePrams.per_page,
+        page: pagePrams.page,
       };
+      console.log("data");
+      console.log(data);
       const jsonDic = {
         headers: {
           "Content-Type": "application/json;charset=utf-8", // 头部信息
@@ -854,6 +957,9 @@ export default {
       console.log("没有");
       return;
     }
+
+    //  this.netUrl= localStorage.getItem("netUrl");
+    let netUrl = localStorage.getItem("netUrl");
     console.log("赋值");
     // 获取源数据
     let data = JSON.parse(dataObj);
@@ -861,6 +967,8 @@ export default {
     Object.assign(this, data);
   },
   data() {
+    let netUrl = localStorage.getItem("netUrl");
+
     let git_page_repo = {
       repoName: "repo_name",
       page: "page",
@@ -989,14 +1097,21 @@ export default {
     ];
 
     return {
-      imgSrc:"http://starplatinumora.top/images/1581927163111766.jpg",
+      issueId: 1,
+      // <el-pagination
+      //   @size-change="handleSizeChange"
+      //   @current-change="handleCurrentChange"
+      //   :current-page="currentPage"
+      currentPageIssues: 1,
+      getIssuesPage: {},
+      imgSrc: "http://starplatinumora.top/images/1581927163111766.jpg",
       auth: null,
       repoInfoGet: null,
       total_issues: null,
       api: null,
       // netUrl:null,
       // netUrl: "https://github.com/moshowgame/SpringBootCodeGenerator",
-      netUrl: "https://github.com/starplatinum3/starplatinum",
+      netUrl: netUrl || "https://github.com/starplatinum3/starplatinum",
       repoInfo: {},
       tableData: issues,
       // tableData: null,
@@ -1082,11 +1197,11 @@ export default {
   background-color: rgb(213, 255, 196);
 }
 
-.img-container{
+.img-container {
   /* width: 20px;
   height: 20px; */
 
-   width: 100px;
+  width: 100px;
   height: 100px;
 }
 .username {

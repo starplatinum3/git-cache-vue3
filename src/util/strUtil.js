@@ -15,6 +15,12 @@
 // }
 
 const strUtil = {
+
+  checkUrl(url) {
+    const re = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+    return re.test(url)
+  },
+
   // GITHUB_URL:"https://github.com",
   // Types are not supported by current JavaScript version
   // js 参数  类型

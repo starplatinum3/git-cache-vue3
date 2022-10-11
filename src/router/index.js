@@ -146,6 +146,8 @@ router.onError((error) => {
     const pattern = /Loading chunk (\d)+ failed/g;
     const isChunkLoadFailed = error.message.match(pattern);
     if (isChunkLoadFailed) {
+      console.log("失败 Loading chunk ");
+      console.log(error);
       window.location.reload();
       // router.replace(router.history.pending.fullPath);
     }else{

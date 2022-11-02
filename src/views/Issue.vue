@@ -124,6 +124,7 @@
 </template>
 
 <script>
+import Global from "../util/global";
 import DateShow from "@/components/date-show";
 import method from "../util/method";
 import { apiMark, codeError, RouteMark } from "../common/common";
@@ -330,6 +331,29 @@ export default {
       // }
     },
 
+    getByWholeUrl(index, row) {
+      let issueUrl = this.$route.query.issueUrl;
+    console.log("issueUrl");
+    console.log(issueUrl);
+
+    axios.post(`${Global.axiosUrl}uploadImg`, fmData).then((res) => {
+        console.log(res);
+        // var src = `http://localhost:7001${res.data.data[0]}`;
+        var src = `${Global.axiosUrl}${res.data.data[0]}`;
+        // var src = `http://localhost:7002${res.data.data[0]}`;
+        console.log("src");
+        console.log(src);
+        this.imgSrc = src;
+        // var img = document.createElement("img");
+        // img.src = src;
+        // if (document.querySelector("img")) {
+        //   document.querySelector("img").remove();
+        // }
+        // document.body.appendChild(img);
+      });
+    // /repos/{owner}/{repo}/issues/{issue_number}
+// 
+    },
     // onIssueClicked(evt){
     //     // 获取点击的 对象 a vue
     //
@@ -577,9 +601,19 @@ export default {
     console.log(urlGetRepo);
     console.log("issueId");
     console.log(issueId);
+    let issueUrl = this.$route.query.issueUrl;
+    console.log("issueUrl");
+    console.log(issueUrl);
+    let urlGetIss = strUtil.urlAdd(api, `/issues/${issueId}`);
+    // if(!issueUrl){
+    //   let urlGetIss = strUtil.urlAdd(api, `/issues/${issueId}`);
+    // }
+    if(issueUrl){
+      urlGetIss=issueUrl
+    }
     //
     let url = strUtil.urlAdd(api, `/issues/${issueId}/comments`);
-    let urlGetIss = strUtil.urlAdd(api, `/issues/${issueId}`);
+   
     // getIssue
 
     // method.post("/issue/getIssue", {url: urlGetIss}, this)

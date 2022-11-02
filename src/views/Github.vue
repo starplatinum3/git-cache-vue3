@@ -351,16 +351,19 @@ export default {
     },
 
     lookOneIssue() {
-      let urlGetRepo = strUtil.urlAdd(GITHUB_URL, repoName);
-      // repoName是包括了 username 和仓库名字
-      console.log("urlGetRepo");
-      console.log(urlGetRepo);
-
+      // let urlGetRepo = strUtil.urlAdd(GITHUB_URL, repoName);
+      // // repoName是包括了 username 和仓库名字
+      // console.log("urlGetRepo");
+      // console.log(urlGetRepo);
+      // this.repoInfo
+      var api = "https://api.github.com/repos/" +     this.repoInfo.username + "/" +  
+      this.repoInfo.repopath+`/issues/${this.issueId}`;
+      // /repos/{owner}/{repo}/issues/{issue_number}
       this.$router.push({
         path: "Issue",
         query: {
           repoName: "repoName",
-          urlGetRepo: urlGetRepo,
+          issueUrl: api,
         },
       });
     },
@@ -845,7 +848,7 @@ export default {
       console.log("repoInfo");
       console.log(repoInfo);
       var api = "https://api.github.com/repos/" + username + "/" + repopath;
-
+      // /repos/{owner}/{repo}/issues/{issue_number}
       this.api = api;
       console.log("Get GitHub api URL:" + api);
       // return api;

@@ -119,6 +119,11 @@ import scss
 2022年3月7日13:05:41
 
 
+D:
+cd D:\software\mongodb-win32-x86_64-windows-4.4.16\bin
+mongod --dbpath "D:\MongoDB\data\db"
+
+
 cnpm install bootstrap bootstrap-vue-3  -S
 
 Failed to resolve loader: less-loader

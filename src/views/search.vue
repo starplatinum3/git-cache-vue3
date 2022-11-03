@@ -2,14 +2,29 @@
   <div>
     search_code_list
     <div :key="code.id" v-for="code in search_code_list">
+      <hr>
       {{ code.repo_name }}
       {{code.name}}
+      full_name {{code.full_name}}
+      html_url  {{code.html_url}}
+      description {{code.description}}
     </div>
 
     search_repositories_list
     <div :key="code.id" v-for="code in search_repositories_list">
+
+      <hr>
       {{ code.repo_name }}
       {{code.name}}
+      <a target="_blank" :href="code.html_url">{{code.html_url}}</a>
+    
+      html_url  {{code.html_url}}
+      <div>   full_name {{code.full_name}} </div>
+      <!-- description -->
+      <div class="description">   {{code.description}}</div>
+      <span  class="topic" :key="topic"   v-for="topic in code.topics" >{{topic}}</span>
+
+      <!-- topics -->
     </div>
 
     search_code_test_get
@@ -35,6 +50,7 @@ import {
   QuickVue,
   GITHUB_URL,
   dataGitHub,
+  mock_serach_repos_res
 } from "../common/common";
 import util from "../util/util";
 import FileUtil from "../util/FileUtil";
@@ -339,6 +355,12 @@ export default {
     },
 
     search_repositories() {
+      if(this.doMock){
+        // that.search_r
+      let  res=mock_serach_repos_res
+        this.search_repositories_list = res.data.data.data.items;
+        return 
+      }
       let q = this.$route.query.q;
       let that = this;
       // search_code
@@ -546,6 +568,7 @@ export default {
   data() {
     
     return {
+      doMock:true,
       search_code_word: null,
       search_code_list: [
         {
@@ -665,5 +688,16 @@ export default {
   /* 加粗 */
   font-weight: bold;
   margin-right: 5px;
+}
+
+.description{
+  font-size: 20px;
+  color: gray;
+}
+.topic{
+  /* border-radius: 50%; */
+  margin-right: 10px;
+  border-radius: 20px;
+  background-color: aquamarine;
 }
 </style>

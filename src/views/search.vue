@@ -1,178 +1,18 @@
 <template>
   <div>
-    <el-input v-model="search_code_word"></el-input>
-    <el-button type="primary" @click="search_code" class="submit"
-      >search_code</el-button
-    >
-
-    <view></view>
-    <el-card :key="rowData.id" v-for="rowData in tableData">
-      <!-- <p>{{ rowData.title }}</p> -->
-
-      <!-- <p>{{ rowData.user.login }}</p> -->
-      <div>{{ rowData.title }}</div>
-
-      <div class="time">
-        <!-- <div>{{ DateUtil.format(rowData.created_at,"yyyy-MM-dd hh:mm:ss")  }}</div> -->
-        <!-- <div>{{ rowData.created_at .format("yyyy-MM-dd hh:mm:ss") }}</div> -->
-        <!-- <div>{{ rowData.updated_at }}</div> -->
-        <div class="username">{{ rowData.user.login }}</div>
-        创建于
-        <DateShow class="created_at" :date="rowData.created_at"></DateShow>
-        更新于
-        <DateShow class="updated_at" :date="rowData.updated_at"></DateShow>
-        <!-- <div class="elliptical-background">{{ rowData.state }}</div> -->
-        <div class="open-bg">{{ rowData.state }}</div>
-      </div>
-      <!-- <p>{{ rowData.created_at }}</p>
-      <p>{{ rowData.updated_at }}</p> -->
-      <!--            @click="onIssueClicked(scope.$index, scope.row)"-->
-      <el-button
-        type="text"
-        icon="el-icon-edit"
-        @click="onIssueClickedByRow(rowData)"
-        >链接</el-button
-      >
-      html_url
-      {{ rowData.html_url }}
-    </el-card>
-
-    
     search_code_list
-    <div :key="code.id" v-for="code in search_code_list">{{ code.repo_name }}</div>
-   
-    <!--    https://blog.csdn.net/woshisangsang/article/details/113539967-->
-    用户名<el-input v-model="username"></el-input> 仓库名字
-    <el-input v-model="repo"></el-input>
-
-    <!-- <el-row>
-    <el-input v-model="username">用户名</el-input>
-</el-row>
-<el-row>
-    仓库名字  <el-input v-model="repo"></el-input>
-</el-row> -->
-
-    <el-button type="primary" @click="makeUrl" class="submit"
-      >makeUrl</el-button
-    >
-    <!-- <div class="white">网址</div> -->
-    <div class="">网址</div>
-    <el-input v-model="netUrl" @change="onNetUrlChange"></el-input>
-    <div class="">issue id</div>
-    <el-input v-model="issueId"></el-input>
-
-    <div class="center btn-margin">
-      <el-button type="primary" @click="parseApi" class="submitBtn"
-        >解析</el-button
-      >
-      <!-- <el-button type="primary" @click="reqIssNum" class="submitBtn">reqIssNum</el-button> -->
-      <el-button type="primary" @click="getIssues" class="submitBtn"
-        >获取issues</el-button
-      >
-      <el-button type="primary" @click="lookOneIssue" class="submitBtn"
-        >lookOneIssue</el-button
-      >
-      <!-- <el-button type="primary" @click="getHistory" class="submitBtn">历史记录</el-button> -->
+    <div :key="code.id" v-for="code in search_code_list">
+      {{ code.repo_name }}
     </div>
 
-    <!-- getIssuesPage -->
-    <el-pagination
-      @size-change="handleSizeChangeGetIssues"
-      @current-change="handleCurrentChangeGetIssues"
-      :current-page="currentPageIssues"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
-      layout=" prev, pager, next, jumper"
-      :total="400"
-    ></el-pagination>
-
-    <el-card>
-      <!-- <p>total_issues : {{ total_issues }}</p>
-      <p>api : {{ api }}</p> -->
-
-      <div>total_issues : {{ total_issues }}</div>
-      <div>api : {{ api }}</div>
-      <!--    获取issues 是/获取issues-->
-
-      <div>历史记录</div>
-      <!--    <div v-for="his in history">{{his.url}}</div>-->
-      <div :key="his.url" v-for="his in history">{{ his.url }}</div>
-   
-    </el-card>
-    <el-card>
-    
-      <div>queryWord</div>
-      <el-input class="center" v-model="reposQuery.queryWord"></el-input>
-
-<el-button @click="search_code">search_code</el-button>
-     
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
-        layout=" prev, pager, next, jumper"
-        :total="400"
-      ></el-pagination>
-
-      <div class="center">
-        <!-- <el-input v-model="reposQuery.queryWord"></el-input> -->
-
-        <el-button type="primary" @click="getRepos" class="submitBtn btn-margin"
-          >浏览仓库</el-button
-        >
-      </div>
-      <div>{{ getReposStatus }}</div>
-    </el-card>
-    <!--    <div class="white" :key="" v-for="repo  in git_page_repos">-->
-    <div class="white" :key="repo.id" v-for="repo in git_page_repos">
-      <el-card>
-   
-
-        <el-button
-          @click="toIssues(repo.repo_name)"
-          type="text"
-          class="button"
-          >{{ repo.repo_name }}</el-button
-        >
-
-      
-        <div>{{ repo.sketch }}</div>
-
-        <div>star {{ repo.star }}</div>
-        <div>主题 {{ repo.topics }}</div>
-      </el-card>
-    </div>
-    <el-input
-      type="textarea"
-      :rows="2"
-      placeholder="请输入标题"
-      v-model="postTitle"
-    ></el-input>
-    <el-input
-      type="textarea"
-      :rows="2"
-      placeholder="请输入内容"
-      v-model="postIssue"
-    ></el-input>
-    <el-button type="primary" @click="submitIssue" class="submit"
-      >提交issue</el-button
-    >
-    <el-button type="primary" @click="toLogin" class="submit"
-      >toLogin</el-button
-    >
-    <el-button type="primary" @click="toComic" class="submit"
-      >toComic</el-button
+    search_code_test_get
+    <el-button type="" @click="search_code_test_get"
+      >search_code_test_get</el-button
     >
 
-    <div class="upload-btn">上传图片</div>
-    <!-- <input @onchange="onchange" type="file" id="fileinput" /> -->
-    <input @change="onchange" type="file" id="fileinput" />
-    <img :src="imgSrc" class="img-container" />
-
-    <el-button type="primary" @click="getDashboard" class="submit"
-      >getDashboard</el-button
+    get_article_detail
+    <el-button type="" @click="get_article_detail"
+      >get_article_detail</el-button
     >
   </div>
 </template>
@@ -204,8 +44,38 @@ export default {
   },
   name: "GithubHome",
   methods: {
-    
+    // router.get('/article/detail', controller.article.detail);// 文章详情查询
+    get_article_detail() {
+      // method.get()
 
+      let q = this.$route.query.q;
+      let that = this;
+      // search_code
+      // method.get("gitPageRepo/getRepos",{})
+      method
+        .get("/article/detail", {
+          q: q,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    },
+    search_code_test_get() {
+      // method.get()
+
+      let q = this.$route.query.q;
+      let that = this;
+      // search_code
+      // method.get("gitPageRepo/getRepos",{})
+      let  params= {
+          // q: q,
+        }
+      method
+        .get("gitPageRepo/search_code_test_get",params)
+        .then((res) => {
+          console.log(res);
+        });
+    },
     onNetUrlChange(value) {
       console.log("value");
       console.log(value);
@@ -222,9 +92,12 @@ export default {
     },
 
     lookOneIssue() {
-  
-      var api = "https://api.github.com/repos/" +     this.repoInfo.username + "/" +  
-      this.repoInfo.repopath+`/issues/${this.issueId}`;
+      var api =
+        "https://api.github.com/repos/" +
+        this.repoInfo.username +
+        "/" +
+        this.repoInfo.repopath +
+        `/issues/${this.issueId}`;
       // /repos/{owner}/{repo}/issues/{issue_number}
       this.$router.push({
         path: "Issue",
@@ -299,7 +172,6 @@ export default {
         console.log("src");
         console.log(src);
         this.imgSrc = src;
-  
       });
     },
 
@@ -387,7 +259,6 @@ export default {
     },
     getIssuesDo(pagePrams) {
       if (this.api === null) {
-      
         ElMessage.error("api 没有");
         return;
       }
@@ -430,8 +301,6 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-
-      
     },
     getIssues() {
       if (this.canHit) {
@@ -444,7 +313,6 @@ export default {
           clearInterval(auth_timetimer);
         }, 1000);
       }
-     
     },
     getHistory() {
       method
@@ -461,153 +329,166 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-    
     },
 
-    search_code(){
-      let that=this
-      method.get("gitPageRepo/getRepos",{})
-      .then(res => {
-        console.log("gitPageRepo/getRepos res" );
-        console.log("res");
-        console.log(res);
-        console.log(res.data);
-        // let  data=res.data
-      //  let  search_code_list=data
-      //  that.search_code_list=search_code_list
-       that.search_code_list=res.data.data
-       console.log("that.search_code_list");
-       console.log( that.search_code_list);
-        let resExampale={
-    "data": {
-        "code": 200,
-        "data": [
-            {
-                "id": 1,
-                "repo_name": "TheAlgorithms/Python",
-                "page": null,
-                "sketch": "All Algorithms implemented in Python",
-                "topics": "[\"python\",\"hacktoberfest\",\"education\",\"algorithm\",\"practice\",\"interview\",\"sorting-algorithms\",\"learn\",\"algos\",\"algorithm-competitions\",\"sorts\",\"algorithms-implemented\",\"community-driven\",\"searches\"]",
-                "star": "130k",
-                "query_word": null,
-                "create_time": null
+    search_code() {
+      let q = this.$route.query.q;
+      let that = this;
+      // search_code
+      // method.get("gitPageRepo/getRepos",{})
+      method
+        .get("gitPageRepo/search_code", {
+          q: q,
+        })
+        .then((res) => {
+          console.log("gitPageRepo/search_code res");
+          console.log("res");
+          console.log(res);
+          console.log(res.data);
+          // let  data=res.data
+          //  let  search_code_list=data
+          //  that.search_code_list=search_code_list
+          // that.search_code_list = res.data.data;
+          that.search_code_list = res.data.data.data;
+          
+          console.log("that.search_code_list");
+          console.log(that.search_code_list);
+          let resExampale = {
+            data: {
+              code: 200,
+              data: [
+                {
+                  id: 1,
+                  repo_name: "TheAlgorithms/Python",
+                  page: null,
+                  sketch: "All Algorithms implemented in Python",
+                  topics:
+                    '["python","hacktoberfest","education","algorithm","practice","interview","sorting-algorithms","learn","algos","algorithm-competitions","sorts","algorithms-implemented","community-driven","searches"]',
+                  star: "130k",
+                  query_word: null,
+                  create_time: null,
+                },
+                {
+                  id: 2,
+                  repo_name: "geekcomputers/Python",
+                  page: null,
+                  sketch: "My Python Examples",
+                  topics: "[]",
+                  star: "24.7k",
+                  query_word: null,
+                  create_time: null,
+                },
+                {
+                  id: 3,
+                  repo_name: "walter201230/Python",
+                  page: null,
+                  sketch: "最良心的 Python 教程：",
+                  topics: '["python","python3"]',
+                  star: "11.5k",
+                  query_word: null,
+                  create_time: null,
+                },
+                {
+                  id: 4,
+                  repo_name: "injetlee/Python",
+                  page: null,
+                  sketch:
+                    "Python脚本。模拟登录知乎， 爬虫，操作excel，微信公众号，远程开机",
+                  topics: '["python","crawler","excel","wechat"]',
+                  star: "7.5k",
+                  query_word: null,
+                  create_time: null,
+                },
+                {
+                  id: 5,
+                  repo_name: "kubernetes-client/python",
+                  page: null,
+                  sketch: "Official Python client library for kubernetes",
+                  topics:
+                    '["kubernetes","k8s","library","client-python","k8s-sig-api-machinery"]',
+                  star: "4.6k",
+                  query_word: null,
+                  create_time: null,
+                },
+                {
+                  id: 6,
+                  repo_name: "Show-Me-the-Code/python",
+                  page: null,
+                  sketch: "Show Me the Code Python version.",
+                  topics: "[]",
+                  star: "3.3k",
+                  query_word: null,
+                  create_time: null,
+                },
+                {
+                  id: 7,
+                  repo_name: "xxg1413/python",
+                  page: null,
+                  sketch: "Python Books && Courses",
+                  topics:
+                    '["python","learning-python","python-book","python-course"]',
+                  star: "2.6k",
+                  query_word: null,
+                  create_time: null,
+                },
+                {
+                  id: 8,
+                  repo_name: "jakevdp/PythonDataScienceHandbook",
+                  page: null,
+                  sketch:
+                    "Python Data Science Handbook: full text in Jupyter Notebooks",
+                  topics:
+                    '["python","numpy","scikit-learn","jupyter-notebook","pandas","matplotlib"]',
+                  star: "32.7k",
+                  query_word: null,
+                  create_time: null,
+                },
+                {
+                  id: 9,
+                  repo_name: "joeyajames/Python",
+                  page: null,
+                  sketch: "Python code for YouTube videos.",
+                  topics: "[]",
+                  star: "1.2k",
+                  query_word: null,
+                  create_time: null,
+                },
+                {
+                  id: 10,
+                  repo_name: "docker-library/python",
+                  page: null,
+                  sketch: "Docker Official Image packaging for Python",
+                  topics: "[]",
+                  star: "1.8k",
+                  query_word: null,
+                  create_time: null,
+                },
+              ],
+              msg: "",
             },
-            {
-                "id": 2,
-                "repo_name": "geekcomputers/Python",
-                "page": null,
-                "sketch": "My Python Examples",
-                "topics": "[]",
-                "star": "24.7k",
-                "query_word": null,
-                "create_time": null
+            status: 200,
+            statusText: "OK",
+            headers: {
+              "content-length": "2291",
+              "content-type": "application/json; charset=utf-8",
             },
-            {
-                "id": 3,
-                "repo_name": "walter201230/Python",
-                "page": null,
-                "sketch": "最良心的 Python 教程：",
-                "topics": "[\"python\",\"python3\"]",
-                "star": "11.5k",
-                "query_word": null,
-                "create_time": null
+            config: {
+              transformRequest: {},
+              transformResponse: {},
+              timeout: 0,
+              xsrfCookieName: "XSRF-TOKEN",
+              xsrfHeaderName: "X-XSRF-TOKEN",
+              maxContentLength: -1,
+              headers: {
+                Accept: "application/json, text/plain, */*",
+              },
+              method: "get",
+              params: {},
+              url: "http://localhost:7001/gitPageRepo/getRepos",
             },
-            {
-                "id": 4,
-                "repo_name": "injetlee/Python",
-                "page": null,
-                "sketch": "Python脚本。模拟登录知乎， 爬虫，操作excel，微信公众号，远程开机",
-                "topics": "[\"python\",\"crawler\",\"excel\",\"wechat\"]",
-                "star": "7.5k",
-                "query_word": null,
-                "create_time": null
-            },
-            {
-                "id": 5,
-                "repo_name": "kubernetes-client/python",
-                "page": null,
-                "sketch": "Official Python client library for kubernetes",
-                "topics": "[\"kubernetes\",\"k8s\",\"library\",\"client-python\",\"k8s-sig-api-machinery\"]",
-                "star": "4.6k",
-                "query_word": null,
-                "create_time": null
-            },
-            {
-                "id": 6,
-                "repo_name": "Show-Me-the-Code/python",
-                "page": null,
-                "sketch": "Show Me the Code Python version.",
-                "topics": "[]",
-                "star": "3.3k",
-                "query_word": null,
-                "create_time": null
-            },
-            {
-                "id": 7,
-                "repo_name": "xxg1413/python",
-                "page": null,
-                "sketch": "Python Books && Courses",
-                "topics": "[\"python\",\"learning-python\",\"python-book\",\"python-course\"]",
-                "star": "2.6k",
-                "query_word": null,
-                "create_time": null
-            },
-            {
-                "id": 8,
-                "repo_name": "jakevdp/PythonDataScienceHandbook",
-                "page": null,
-                "sketch": "Python Data Science Handbook: full text in Jupyter Notebooks",
-                "topics": "[\"python\",\"numpy\",\"scikit-learn\",\"jupyter-notebook\",\"pandas\",\"matplotlib\"]",
-                "star": "32.7k",
-                "query_word": null,
-                "create_time": null
-            },
-            {
-                "id": 9,
-                "repo_name": "joeyajames/Python",
-                "page": null,
-                "sketch": "Python code for YouTube videos.",
-                "topics": "[]",
-                "star": "1.2k",
-                "query_word": null,
-                "create_time": null
-            },
-            {
-                "id": 10,
-                "repo_name": "docker-library/python",
-                "page": null,
-                "sketch": "Docker Official Image packaging for Python",
-                "topics": "[]",
-                "star": "1.8k",
-                "query_word": null,
-                "create_time": null
-            }
-        ],
-        "msg": ""
-    },
-    "status": 200,
-    "statusText": "OK",
-    "headers": {
-        "content-length": "2291",
-        "content-type": "application/json; charset=utf-8"
-    },
-    "config": {
-        "transformRequest": {},
-        "transformResponse": {},
-        "timeout": 0,
-        "xsrfCookieName": "XSRF-TOKEN",
-        "xsrfHeaderName": "X-XSRF-TOKEN",
-        "maxContentLength": -1,
-        "headers": {
-            "Accept": "application/json, text/plain, */*"
-        },
-        "method": "get",
-        "params": {},
-        "url": "http://localhost:7001/gitPageRepo/getRepos"
-    },
-    "request": {}
-}
-      })
+            request: {},
+          };
+        });
     },
     getRepos() {
       if (this.reposQuery.queryWord === null) {
@@ -656,7 +537,7 @@ export default {
       // apiUrl=apiUrl||this.netUrl
       const apiUrl = this.netUrl;
       var total_issues;
-      
+
       var that = this;
       this.$axios.get(apiUrl).then((res) => {
         //获取你需要用到的数据
@@ -666,12 +547,11 @@ export default {
         total_issues = res.open_issues;
       });
       this.total_issues = total_issues;
-  
 
       console.log("Total issues: " + total_issues);
       return total_issues;
     },
-  
+
     parseApi() {
       // parse
       // var urlSplit = crtUrl.split('/');
@@ -704,7 +584,6 @@ export default {
       this.api = api;
     },
 
-   
     // Commoc
     // 编辑操作
     onIssueClicked(index, row) {
@@ -723,7 +602,6 @@ export default {
       sessionStorage.setItem(dataGitHub, JSON.stringify(this.$data));
 
       this.$router.push({ path: "Issue", query: { issueId: row.number } });
-    
     },
 
     onIssueClickedByRow(row) {
@@ -754,13 +632,12 @@ export default {
       //     this.editVisible = true;
       // }
     },
-
-   
   },
   created() {
-  let q=    this.$route.path.q
-  console.log("q",q);
-  
+    let q = this.$route.query.q;
+    // let q=    this.$route.path.q
+    console.log("q", q);
+    this.search_code();
   },
   data() {
     let netUrl = localStorage.getItem("netUrl");
@@ -893,18 +770,19 @@ export default {
     ];
 
     return {
-      search_code_word:null,
-      search_code_list:[
+      search_code_word: null,
+      search_code_list: [
         {
-                "id": 1,
-                "repo_name": "TheAlgorithms/Python",
-                "page": null,
-                "sketch": "All Algorithms implemented in Python",
-                "topics": "[\"python\",\"hacktoberfest\",\"education\",\"algorithm\",\"practice\",\"interview\",\"sorting-algorithms\",\"learn\",\"algos\",\"algorithm-competitions\",\"sorts\",\"algorithms-implemented\",\"community-driven\",\"searches\"]",
-                "star": "130k",
-                "query_word": null,
-                "create_time": null
-            },
+          id: 1,
+          repo_name: "TheAlgorithms/Python",
+          page: null,
+          sketch: "All Algorithms implemented in Python",
+          topics:
+            '["python","hacktoberfest","education","algorithm","practice","interview","sorting-algorithms","learn","algos","algorithm-competitions","sorts","algorithms-implemented","community-driven","searches"]',
+          star: "130k",
+          query_word: null,
+          create_time: null,
+        },
       ],
       issueId: 1,
       // <el-pagination

@@ -3,6 +3,7 @@
     search_code_list
     <div :key="code.id" v-for="code in search_code_list">
       {{ code.repo_name }}
+      {{code.name}}
     </div>
 
     search_code_test_get
@@ -349,8 +350,8 @@ export default {
           //  let  search_code_list=data
           //  that.search_code_list=search_code_list
           // that.search_code_list = res.data.data;
-          that.search_code_list = res.data.data.data;
-          
+          that.search_code_list = res.data.data.data.items;
+          // name
           console.log("that.search_code_list");
           console.log(that.search_code_list);
           let resExampale = {
@@ -640,135 +641,7 @@ export default {
     this.search_code();
   },
   data() {
-    let netUrl = localStorage.getItem("netUrl");
-
-    let git_page_repo = {
-      repoName: "repo_name",
-      page: "page",
-      sketch: "sketch",
-      topics: "topics",
-      star: "star",
-      queryWord: "query_word",
-    };
-    let reposQuery = {
-      page: 1,
-      queryWord: null,
-    };
-    let git_page_repos = [
-      // git_page_repo,
-      {
-        id: 21,
-        repoName: "Louiszhai/tool",
-        sketch: "开发效率提升：Mac生产力工具链推荐",
-        topics: '["mac","tool"]',
-        star: "5.1k",
-        queryWord: "tool",
-        page: null,
-      },
-    ];
-    let issue = {
-      assignees: [],
-      created_at: "2021-09-29T07:41:49Z",
-      title: "支持大佬，求在mybatis里加入批量插入接口",
-      body: null,
-      labels_url:
-        "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/labels{/name}",
-      author_association: "NONE",
-      number: 121,
-      updated_at: "2021-09-29T07:41:49Z",
-      performed_via_github_app: null,
-      comments_url:
-        "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/comments",
-      active_lock_reason: null,
-      repository_url:
-        "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator",
-      id: 1010607155,
-      state: "open",
-      locked: false,
-      timeline_url:
-        "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/timeline",
-      comments: 0,
-      closed_at: null,
-      url: "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121",
-      labels: [],
-      milestone: null,
-      events_url:
-        "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/events",
-      html_url:
-        "https://github.com/moshowgame/SpringBootCodeGenerator/issues/121",
-      reactions: {
-        confused: 0,
-        "-1": 0,
-        total_count: 0,
-        "+1": 0,
-        rocket: 0,
-        hooray: 0,
-        eyes: 0,
-        url: "https://api.github.com/repos/moshowgame/SpringBootCodeGenerator/issues/121/reactions",
-        laugh: 0,
-        heart: 0,
-      },
-      assignee: null,
-      user: {
-        gists_url: "https://api.github.com/users/xuhao199224/gists{/gist_id}",
-        repos_url: "https://api.github.com/users/xuhao199224/repos",
-        following_url:
-          "https://api.github.com/users/xuhao199224/following{/other_user}",
-        starred_url:
-          "https://api.github.com/users/xuhao199224/starred{/owner}{/repo}",
-        login: "xuhao199224",
-        followers_url: "https://api.github.com/users/xuhao199224/followers",
-        type: "User",
-        url: "https://api.github.com/users/xuhao199224",
-        subscriptions_url:
-          "https://api.github.com/users/xuhao199224/subscriptions",
-        received_events_url:
-          "https://api.github.com/users/xuhao199224/received_events",
-        avatar_url: "https://avatars.githubusercontent.com/u/2443665?v=4",
-        events_url: "https://api.github.com/users/xuhao199224/events{/privacy}",
-        html_url: "https://github.com/xuhao199224",
-        site_admin: false,
-        id: 2443665,
-        gravatar_id: "",
-        node_id: "MDQ6VXNlcjI0NDM2NjU=",
-        organizations_url: "https://api.github.com/users/xuhao199224/orgs",
-      },
-      node_id: "I_kwDOCMCWTc48PKQz",
-    };
-    var issues = [
-      // {
-      //   title: "111",
-      //   url: "url",
-      //   issueId: 111,
-      //   user:{
-      //     login:"dada"
-      //   }
-      // },
-      issue,
-    ];
-    var originData = [
-      {
-        date: "2016-05-02",
-        name: "王小虎",
-        address: "上海市普陀区金沙江路 1518 弄",
-      },
-      {
-        date: "2016-05-04",
-        name: "王小虎",
-        address: "上海市普陀区金沙江路 1517 弄",
-      },
-      {
-        date: "2016-05-01",
-        name: "王小虎",
-        address: "上海市普陀区金沙江路 1519 弄",
-      },
-      {
-        date: "2016-05-03",
-        name: "王小虎",
-        address: "上海市普陀区金沙江路 1516 弄",
-      },
-    ];
-
+    
     return {
       search_code_word: null,
       search_code_list: [
@@ -800,14 +673,7 @@ export default {
       // netUrl: "https://github.com/moshowgame/SpringBootCodeGenerator",
       netUrl: netUrl || "https://github.com/starplatinum3/starplatinum",
       repoInfo: {},
-      tableData: issues,
-      // tableData: null,
-      canHit: true,
-      history: null,
-      git_page_repo: git_page_repo,
-      git_page_repos: git_page_repos,
-      // git_page_repos: null,
-      reposQuery: reposQuery,
+     
       getReposStatus: "请输入查询",
       postIssue: null,
       username: null,

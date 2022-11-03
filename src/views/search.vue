@@ -6,6 +6,12 @@
       {{code.name}}
     </div>
 
+    search_repositories_list
+    <div :key="code.id" v-for="code in search_repositories_list">
+      {{ code.repo_name }}
+      {{code.name}}
+    </div>
+
     search_code_test_get
     <el-button type="" @click="search_code_test_get"
       >search_code_test_get</el-button
@@ -332,6 +338,36 @@ export default {
         });
     },
 
+    search_repositories() {
+      let q = this.$route.query.q;
+      let that = this;
+      // search_code
+      // method.get("gitPageRepo/getRepos",{})
+      let  service="repositories"
+      method
+      // .get(`gitPageRepo/search_${service}`,
+        .get(`search/${service}`,
+         {
+          q: q,
+        })
+        .then((res) => {
+          console.log(`gitPageRepo/search_${service} res`);
+          console.log("res");
+          console.log(res);
+          console.log(res.data);
+          // let  data=res.data
+          //  let  search_code_list=data
+          //  that.search_code_list=search_code_list
+          // that.search_code_list = res.data.data;
+          // that.search_code_list = res.data.data.data.items;
+          that.search_repositories_list = res.data.data.data.items;
+          // name
+          console.log("that.search_code_list");
+          console.log(that.search_code_list);
+        
+        });
+    },
+
     search_code() {
       let q = this.$route.query.q;
       let that = this;
@@ -354,141 +390,7 @@ export default {
           // name
           console.log("that.search_code_list");
           console.log(that.search_code_list);
-          let resExampale = {
-            data: {
-              code: 200,
-              data: [
-                {
-                  id: 1,
-                  repo_name: "TheAlgorithms/Python",
-                  page: null,
-                  sketch: "All Algorithms implemented in Python",
-                  topics:
-                    '["python","hacktoberfest","education","algorithm","practice","interview","sorting-algorithms","learn","algos","algorithm-competitions","sorts","algorithms-implemented","community-driven","searches"]',
-                  star: "130k",
-                  query_word: null,
-                  create_time: null,
-                },
-                {
-                  id: 2,
-                  repo_name: "geekcomputers/Python",
-                  page: null,
-                  sketch: "My Python Examples",
-                  topics: "[]",
-                  star: "24.7k",
-                  query_word: null,
-                  create_time: null,
-                },
-                {
-                  id: 3,
-                  repo_name: "walter201230/Python",
-                  page: null,
-                  sketch: "最良心的 Python 教程：",
-                  topics: '["python","python3"]',
-                  star: "11.5k",
-                  query_word: null,
-                  create_time: null,
-                },
-                {
-                  id: 4,
-                  repo_name: "injetlee/Python",
-                  page: null,
-                  sketch:
-                    "Python脚本。模拟登录知乎， 爬虫，操作excel，微信公众号，远程开机",
-                  topics: '["python","crawler","excel","wechat"]',
-                  star: "7.5k",
-                  query_word: null,
-                  create_time: null,
-                },
-                {
-                  id: 5,
-                  repo_name: "kubernetes-client/python",
-                  page: null,
-                  sketch: "Official Python client library for kubernetes",
-                  topics:
-                    '["kubernetes","k8s","library","client-python","k8s-sig-api-machinery"]',
-                  star: "4.6k",
-                  query_word: null,
-                  create_time: null,
-                },
-                {
-                  id: 6,
-                  repo_name: "Show-Me-the-Code/python",
-                  page: null,
-                  sketch: "Show Me the Code Python version.",
-                  topics: "[]",
-                  star: "3.3k",
-                  query_word: null,
-                  create_time: null,
-                },
-                {
-                  id: 7,
-                  repo_name: "xxg1413/python",
-                  page: null,
-                  sketch: "Python Books && Courses",
-                  topics:
-                    '["python","learning-python","python-book","python-course"]',
-                  star: "2.6k",
-                  query_word: null,
-                  create_time: null,
-                },
-                {
-                  id: 8,
-                  repo_name: "jakevdp/PythonDataScienceHandbook",
-                  page: null,
-                  sketch:
-                    "Python Data Science Handbook: full text in Jupyter Notebooks",
-                  topics:
-                    '["python","numpy","scikit-learn","jupyter-notebook","pandas","matplotlib"]',
-                  star: "32.7k",
-                  query_word: null,
-                  create_time: null,
-                },
-                {
-                  id: 9,
-                  repo_name: "joeyajames/Python",
-                  page: null,
-                  sketch: "Python code for YouTube videos.",
-                  topics: "[]",
-                  star: "1.2k",
-                  query_word: null,
-                  create_time: null,
-                },
-                {
-                  id: 10,
-                  repo_name: "docker-library/python",
-                  page: null,
-                  sketch: "Docker Official Image packaging for Python",
-                  topics: "[]",
-                  star: "1.8k",
-                  query_word: null,
-                  create_time: null,
-                },
-              ],
-              msg: "",
-            },
-            status: 200,
-            statusText: "OK",
-            headers: {
-              "content-length": "2291",
-              "content-type": "application/json; charset=utf-8",
-            },
-            config: {
-              transformRequest: {},
-              transformResponse: {},
-              timeout: 0,
-              xsrfCookieName: "XSRF-TOKEN",
-              xsrfHeaderName: "X-XSRF-TOKEN",
-              maxContentLength: -1,
-              headers: {
-                Accept: "application/json, text/plain, */*",
-              },
-              method: "get",
-              params: {},
-              url: "http://localhost:7001/gitPageRepo/getRepos",
-            },
-            request: {},
-          };
+        
         });
     },
     getRepos() {
@@ -638,7 +540,8 @@ export default {
     let q = this.$route.query.q;
     // let q=    this.$route.path.q
     console.log("q", q);
-    this.search_code();
+    // this.search_code();
+    this.search_repositories()
   },
   data() {
     
@@ -657,6 +560,7 @@ export default {
           create_time: null,
         },
       ],
+      search_repositories_list:[],
       issueId: 1,
       // <el-pagination
       //   @size-change="handleSizeChange"
@@ -671,7 +575,7 @@ export default {
       api: null,
       // netUrl:null,
       // netUrl: "https://github.com/moshowgame/SpringBootCodeGenerator",
-      netUrl: netUrl || "https://github.com/starplatinum3/starplatinum",
+      // netUrl: netUrl || "https://github.com/starplatinum3/starplatinum",
       repoInfo: {},
      
       getReposStatus: "请输入查询",

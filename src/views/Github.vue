@@ -32,6 +32,12 @@
       {{ rowData.html_url }}
     </el-card>
 
+    <!-- <div v-for="(code,index) in search_code_list" key="index">
+
+    </div> -->
+
+    search_code_list
+    <div :key="code.id" v-for="code in search_code_list">{{ code.repo_name }}</div>
     <!--        <div>-->
     <!--            <div :key="rowData.id" v-for="rowData in tableData">-->
     <!--                <p>{{ rowData.title }}</p>-->
@@ -215,6 +221,9 @@
       ></el-pagination> -->
       <div>queryWord</div>
       <el-input class="center" v-model="reposQuery.queryWord"></el-input>
+
+<el-button @click="search_code">search_code</el-button>
+     
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -686,6 +695,152 @@ export default {
       //         console.log(error);
       //     });
     },
+
+    search_code(){
+      let that=this
+      method.get("gitPageRepo/getRepos",{})
+      .then(res => {
+        console.log("gitPageRepo/getRepos res" );
+        console.log("res");
+        console.log(res);
+        console.log(res.data);
+        // let  data=res.data
+      //  let  search_code_list=data
+      //  that.search_code_list=search_code_list
+       that.search_code_list=res.data.data
+       console.log("that.search_code_list");
+       console.log( that.search_code_list);
+        let resExampale={
+    "data": {
+        "code": 200,
+        "data": [
+            {
+                "id": 1,
+                "repo_name": "TheAlgorithms/Python",
+                "page": null,
+                "sketch": "All Algorithms implemented in Python",
+                "topics": "[\"python\",\"hacktoberfest\",\"education\",\"algorithm\",\"practice\",\"interview\",\"sorting-algorithms\",\"learn\",\"algos\",\"algorithm-competitions\",\"sorts\",\"algorithms-implemented\",\"community-driven\",\"searches\"]",
+                "star": "130k",
+                "query_word": null,
+                "create_time": null
+            },
+            {
+                "id": 2,
+                "repo_name": "geekcomputers/Python",
+                "page": null,
+                "sketch": "My Python Examples",
+                "topics": "[]",
+                "star": "24.7k",
+                "query_word": null,
+                "create_time": null
+            },
+            {
+                "id": 3,
+                "repo_name": "walter201230/Python",
+                "page": null,
+                "sketch": "最良心的 Python 教程：",
+                "topics": "[\"python\",\"python3\"]",
+                "star": "11.5k",
+                "query_word": null,
+                "create_time": null
+            },
+            {
+                "id": 4,
+                "repo_name": "injetlee/Python",
+                "page": null,
+                "sketch": "Python脚本。模拟登录知乎， 爬虫，操作excel，微信公众号，远程开机",
+                "topics": "[\"python\",\"crawler\",\"excel\",\"wechat\"]",
+                "star": "7.5k",
+                "query_word": null,
+                "create_time": null
+            },
+            {
+                "id": 5,
+                "repo_name": "kubernetes-client/python",
+                "page": null,
+                "sketch": "Official Python client library for kubernetes",
+                "topics": "[\"kubernetes\",\"k8s\",\"library\",\"client-python\",\"k8s-sig-api-machinery\"]",
+                "star": "4.6k",
+                "query_word": null,
+                "create_time": null
+            },
+            {
+                "id": 6,
+                "repo_name": "Show-Me-the-Code/python",
+                "page": null,
+                "sketch": "Show Me the Code Python version.",
+                "topics": "[]",
+                "star": "3.3k",
+                "query_word": null,
+                "create_time": null
+            },
+            {
+                "id": 7,
+                "repo_name": "xxg1413/python",
+                "page": null,
+                "sketch": "Python Books && Courses",
+                "topics": "[\"python\",\"learning-python\",\"python-book\",\"python-course\"]",
+                "star": "2.6k",
+                "query_word": null,
+                "create_time": null
+            },
+            {
+                "id": 8,
+                "repo_name": "jakevdp/PythonDataScienceHandbook",
+                "page": null,
+                "sketch": "Python Data Science Handbook: full text in Jupyter Notebooks",
+                "topics": "[\"python\",\"numpy\",\"scikit-learn\",\"jupyter-notebook\",\"pandas\",\"matplotlib\"]",
+                "star": "32.7k",
+                "query_word": null,
+                "create_time": null
+            },
+            {
+                "id": 9,
+                "repo_name": "joeyajames/Python",
+                "page": null,
+                "sketch": "Python code for YouTube videos.",
+                "topics": "[]",
+                "star": "1.2k",
+                "query_word": null,
+                "create_time": null
+            },
+            {
+                "id": 10,
+                "repo_name": "docker-library/python",
+                "page": null,
+                "sketch": "Docker Official Image packaging for Python",
+                "topics": "[]",
+                "star": "1.8k",
+                "query_word": null,
+                "create_time": null
+            }
+        ],
+        "msg": ""
+    },
+    "status": 200,
+    "statusText": "OK",
+    "headers": {
+        "content-length": "2291",
+        "content-type": "application/json; charset=utf-8"
+    },
+    "config": {
+        "transformRequest": {},
+        "transformResponse": {},
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "headers": {
+            "Accept": "application/json, text/plain, */*"
+        },
+        "method": "get",
+        "params": {},
+        "url": "http://localhost:7001/gitPageRepo/getRepos"
+    },
+    "request": {}
+}
+      })
+    },
     getRepos() {
       if (this.reposQuery.queryWord === null) {
         util.getMsg(this).error("输入要查询的");
@@ -1100,6 +1255,18 @@ export default {
     ];
 
     return {
+      search_code_list:[
+        {
+                "id": 1,
+                "repo_name": "TheAlgorithms/Python",
+                "page": null,
+                "sketch": "All Algorithms implemented in Python",
+                "topics": "[\"python\",\"hacktoberfest\",\"education\",\"algorithm\",\"practice\",\"interview\",\"sorting-algorithms\",\"learn\",\"algos\",\"algorithm-competitions\",\"sorts\",\"algorithms-implemented\",\"community-driven\",\"searches\"]",
+                "star": "130k",
+                "query_word": null,
+                "create_time": null
+            },
+      ],
       issueId: 1,
       // <el-pagination
       //   @size-change="handleSizeChange"

@@ -133,7 +133,30 @@ const method = {
         // return vue.$axios.post(postUrl,
         //     data, jsonDic
         // )
-    }
+    },
+
+    get(url, params){
+      const jsonDic = {
+          headers: {
+              'Content-Type': 'application/json;charset=utf-8' // 头部信息
+          }
+      }
+
+      let config={
+        params:params,
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8' // 头部信息
+      }
+      }
+      var postUrl = strUtil.urlAdd(Global.axiosUrl, url)
+      // return vue.$axios.post(vue._api + url,
+      // return  axios.post(postUrl,data, jsonDic)
+      // return  axios.get(postUrl,data, jsonDic)
+      return  axios.get(postUrl,config)
+      // return vue.$axios.post(postUrl,
+      //     data, jsonDic
+      // )
+  }
 
 }
 

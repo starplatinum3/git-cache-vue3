@@ -5,10 +5,6 @@
       >search_code</el-button
     >
 
-    <el-button type="primary" @click="search_code_go" class="submit"
-      >search_code</el-button
-    >
-
     <view></view>
     <el-card :key="rowData.id" v-for="rowData in tableData">
       <!-- <p>{{ rowData.title }}</p> -->
@@ -467,10 +463,7 @@ export default {
         });
     
     },
-    search_code_go(){
-      let router=this.$router
-      router.push({ name: 'search', query: { q: this.search_code_word } })
-    },
+
     search_code(){
       let that=this
       method.get("gitPageRepo/getRepos",{})
@@ -765,19 +758,9 @@ export default {
    
   },
   created() {
-    let dataObj = sessionStorage.getItem(dataGitHub);
-    if (dataObj === null) {
-      console.log("没有");
-      return;
-    }
-
-    //  this.netUrl= localStorage.getItem("netUrl");
-    let netUrl = localStorage.getItem("netUrl");
-    console.log("赋值");
-    // 获取源数据
-    let data = JSON.parse(dataObj);
-    // Object.assign方法 赋值 （目标对象， 源对象）
-    Object.assign(this, data);
+  let q=    this.$route.path.q
+  console.log("q",q);
+  
   },
   data() {
     let netUrl = localStorage.getItem("netUrl");

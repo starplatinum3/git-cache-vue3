@@ -568,7 +568,8 @@ export default {
   data() {
     
     return {
-      doMock:true,
+      // doMock:true,
+      doMock:false,
       search_code_word: null,
       search_code_list: [
         {

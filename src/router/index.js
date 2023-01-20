@@ -58,6 +58,12 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/Github.vue')
     },
     {
+      path: '/GithubIssues',
+      name: 'GithubIssues',
+      component: () => import(/* webpackChunkName: "about" */ '../views/GithubIssues.vue')
+  },
+    // D:\proj\vue\git-cache-vue3\src\views\GithubIssues.vue
+    {
       path: '/search',
       name: 'search',
       component: () => import(/* webpackChunkName: "about" */ '../views/search.vue')

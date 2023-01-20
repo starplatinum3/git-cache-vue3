@@ -42,6 +42,7 @@ const strUtil = {
   isEmpty(string){
        return string===null||string===undefined||string===""
   }
+  // be
 }
 
 export default  strUtil

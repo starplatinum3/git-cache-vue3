@@ -4,8 +4,10 @@
     <el-button type="primary" @click="search_code" class="submit"
       >search_code</el-button
     >
-    <el-button @click="toGithubIssues">toGithubIssues</el-button>
 
+    <el-button type="primary" @click="search_code_go" class="submit"
+      >search_code</el-button
+    >
     <div class="">网址</div>
     <el-input v-model="netUrl" @change="onNetUrlChange"></el-input>
 
@@ -13,10 +15,15 @@
         >获取issues</el-button
       >
       
-    <el-button type="primary" @click="search_code_go" class="submit"
-      >search_code</el-button
-    >
-
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChangeIssues"
+        :current-page="currentPage"
+        :page-sizes="[100, 200, 300, 400]"
+        :page-size="100"
+        layout=" prev, pager, next, jumper"
+        :total="400"
+      ></el-pagination>
     <view></view>
     <el-card :key="rowData.id" v-for="rowData in tableData">
       <!-- <p>{{ rowData.title }}</p> -->
@@ -357,7 +364,14 @@ export default {
       this.getRepos();
       this.currentPage = val;
     },
-
+    handleCurrentChangeIssues(val) {
+      console.log(`当前页: ${val}`);
+      this.reposQuery.page = val;
+      // this.getRepos();
+      // this.getIssuesDo()
+      this.getIssues()
+      this.currentPage = val;
+    },
     handleSizeChangeGetIssues(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -478,12 +492,6 @@ export default {
     search_code_go(){
       let router=this.$router
       router.push({ name: 'search', query: { q: this.search_code_word } })
-    },
-    toGithubIssues(){
-      // D:\proj\vue\git-cache-vue3\src\views\GithubIssues.vue
-      this.$router.push({ path: "GithubIssues", query: { repoName: this.search_code_word } });
-
-      // this.$router.push({ path: "issues", query: { repoName: this.search_code_word } });
     },
     search_code(){
       let that=this

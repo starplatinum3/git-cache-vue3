@@ -18,11 +18,11 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChangeIssues"
-        :current-page="currentPage"
+        :current-page="pageParam.page"
         :page-sizes="[100, 200, 300, 400]"
         :page-size="100"
         layout=" prev, pager, next, jumper"
-        :total="400"
+        :total="4000"
       ></el-pagination>
     <view></view>
     <el-card :key="rowData.id" v-for="rowData in tableData">
@@ -95,7 +95,8 @@
     </div>
 
     <!-- getIssuesPage -->
-    <el-pagination
+    <!-- getIssuesPage -->
+    <!-- <el-pagination
       @size-change="handleSizeChangeGetIssues"
       @current-change="handleCurrentChangeGetIssues"
       :current-page="currentPageIssues"
@@ -103,7 +104,7 @@
       :page-size="100"
       layout=" prev, pager, next, jumper"
       :total="400"
-    ></el-pagination>
+    ></el-pagination> -->
 
     <el-card>
       <!-- <p>total_issues : {{ total_issues }}</p>
@@ -125,7 +126,7 @@
 
 <el-button @click="search_code">search_code</el-button>
      
-      <el-pagination
+      <!-- <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -133,7 +134,7 @@
         :page-size="100"
         layout=" prev, pager, next, jumper"
         :total="400"
-      ></el-pagination>
+      ></el-pagination> -->
 
       <div class="center">
         <!-- <el-input v-model="reposQuery.queryWord"></el-input> -->
@@ -357,8 +358,10 @@ export default {
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.pageParam.per_page=val
     },
     handleCurrentChange(val) {
+      console.log("handleCurrentChange");
       console.log(`当前页: ${val}`);
       this.reposQuery.page = val;
       this.getRepos();
@@ -367,10 +370,11 @@ export default {
     handleCurrentChangeIssues(val) {
       console.log(`当前页: ${val}`);
       this.reposQuery.page = val;
-      // this.getRepos();
-      // this.getIssuesDo()
+   
+      this.pageParam.page=val
       this.getIssues()
       this.currentPage = val;
+      // this.pageParam.per =val
     },
     handleSizeChangeGetIssues(val) {
       console.log(`每页 ${val} 条`);
@@ -407,9 +411,6 @@ export default {
       // console.log(urlGetRepo);
       this.$router.push({ path: "issues", query: { repoName: repoName } });
 
-      // this.netUrl = urlGetRepo;
-      // this.parseApi();
-      // this.getIssuesDo();
     },
     getIssuesDo(pagePrams) {
       if (this.api === null) {
@@ -461,7 +462,8 @@ export default {
     },
     getIssues() {
       if (this.canHit) {
-        this.getIssuesDo();
+       
+        this.getIssuesDo( this.pageParam);
         // 防抖
         this.canHit = false;
         var auth_timetimer = setInterval(() => {
@@ -975,6 +977,12 @@ export default {
       repo: null,
       postTitle: null,
       currentPage: 1,
+      pageParam:{
+        page:1,
+        size:10,
+        per_page:10,
+      },
+      
     };
   },
 };

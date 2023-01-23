@@ -23,10 +23,10 @@ export default {
   //     QuestionBody,
   //   },
   created() {
-    console.log("this.date ");
-    console.log(this.date);
-    console.log("typeof this.date");
-    console.log(typeof this.date);
+    // console.log("this.date ");
+    // console.log(this.date);
+    // console.log("typeof this.date");
+    // console.log(typeof this.date);
     if (typeof this.date === "string") {
       //   this.date=new Date(this.date)
       this.dateMe = new Date(this.dateMe);
@@ -41,8 +41,8 @@ export default {
       dateShow = DateUtil.format(this.dateMe, "yyyy-MM-dd hh:mm:ss");
     }
     // DateUtil.format("")
-    console.log("dateShow");
-    console.log(dateShow);
+    // console.log("dateShow");
+    // console.log(dateShow);
     this.dateShow = dateShow;
   },
 

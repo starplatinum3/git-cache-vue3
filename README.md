@@ -21,6 +21,7 @@ cnpm i vant --save
 cnpm install  -save--dev typescript
 https://www.fakin.cn/2778.html
 
+D:\git-cache-firl
 ## Project setup
 ```
 npm install
